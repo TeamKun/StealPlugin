@@ -8,8 +8,6 @@ import org.bukkit.*;
 import org.bukkit.command.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.entity.*;
-import org.bukkit.scheduler.*;
-import org.inventivetalent.nicknamer.api.*;
 
 public class ChangeSkin implements CommandExecutor
 {
@@ -48,14 +46,8 @@ public class ChangeSkin implements CommandExecutor
 
         EntityPlayer ep = ((CraftPlayer) p).getHandle();
         p.getWorld().getPlayers().forEach(player -> {
-            System.out.println("BIFO=: " + player.getName());
-            System.out.println("Hide Send: " + player.getName());
             player.hidePlayer(StealPlugin.getPlugin(), p);
-            System.out.println("Hide Sent: " + player.getName());
-            System.out.println("Show Send: " + player.getName());
             player.showPlayer(StealPlugin.getPlugin(), p);
-            System.out.println("Show Sent: " + player.getName());
-            System.out.println("AFUTA=: " + player.getName());
 
         });
 
