@@ -32,13 +32,27 @@ public class ChangeSkin implements CommandExecutor
         }
 
         Player player = (Player) sender;
-        GameProfile profile = ((CraftPlayer) player).getHandle().getProfile();
-        profile.getProperties().put("textures", new Property("textures", StealPlugin.getPlugin().getDataMap().get(args[0]).getValue(), StealPlugin.getPlugin().getDataMap().get(args[0]).getSignature()));
-        NickNamerAPI.getNickManager().loadCustomSkin("yaju_" + args[0], profile);
-        NickNamerAPI.getNickManager().setCustomSkin(player.getUniqueId(), "yaju_" + args[0]);
-
+        setSkin(player,  StealPlugin.getPlugin().getDataMap().get(args[0]).getValue(), StealPlugin.getPlugin().getDataMap().get(args[0]).getSignature());
         sender.sendMessage(ChatColor.GREEN + "スキンを変更しました。");
 
         return true;
     }
+
+    public void setSkin(Player p, String texture, String s){
+        GameProfile gp = ((CraftPlayer)p).getProfile();
+        gp.getProperties().clear();
+        gp.getProperties().put("textures", new Property("textures", texture, s));
+        // Update the player
+
+
+        for(Player p1 : p.getWorld().getPlayers()){
+            p1.hidePlayer(StealPlugin.getPlugin(), p);
+        }
+        Bukkit.getScheduler().scheduleSyncDelayedTask(StealPlugin.getPlugin(), () -> {
+            for(Player p1 : p.getWorld().getPlayers()){
+                p1.showPlayer(StealPlugin.getPlugin(), p);
+            }
+        }, 5);
+    }
+
 }
