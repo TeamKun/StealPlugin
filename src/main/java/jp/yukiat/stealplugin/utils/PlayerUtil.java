@@ -21,19 +21,6 @@ import java.util.concurrent.atomic.*;
 
 public class PlayerUtil
 {
-    public static StealPlugin.TextureData getTexture(@Nullable Integer seed)
-    {
-        int realSeed;
-        if (seed == null)
-            realSeed = RandomStringUtils.randomNumeric(9).length();
-        else
-            realSeed = seed;
-
-        ArrayList<StealPlugin.TextureData> dataset = new ArrayList<>(StealPlugin.getPlugin().getDataMap().values());
-
-        return dataset.get(new Random(realSeed).nextInt(dataset.size()));
-    }
-
     public static ItemStack getSkullStack(StealPlugin.TextureData data)
     {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);

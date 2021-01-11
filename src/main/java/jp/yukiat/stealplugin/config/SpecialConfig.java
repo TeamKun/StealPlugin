@@ -9,16 +9,21 @@ import java.util.concurrent.atomic.*;
 
 public class SpecialConfig
 {
-    private static final ArrayList<String> applies = new ArrayList<>();
     private static ArrayList<SpecialCore> specials = new ArrayList<>();
+    private static final ArrayList<String> names = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     public static void loadConfig()
     {
-        specials = (ArrayList<SpecialCore>) StealPlugin.config.get("specials");
+        specials = (ArrayList<SpecialCore>) StealPlugin.config.getObject("specials", ArrayList.class);
         Bukkit.getLogger().info(new Gson().toJson(specials));
-        specials.forEach(specialCore -> applies.add(specialCore.name));
+        ((ArrayList<SpecialCore>)specials).forEach(specialCore -> names.add(specialCore.name));
     }
+
+    public static boolean containsSpecial(String name)
+    {
+        return names.contains(name);
+    } // ばいばいー あんど おやすみー
 
     public static ArrayList<SpecialCore> getSpecials()
     {
@@ -33,10 +38,5 @@ public class SpecialConfig
                 core.set(specialCore);
         });
         return core.get();
-    }
-
-    public static boolean contains(String name)
-    {
-        return applies.contains(name);
     }
 }

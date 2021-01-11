@@ -1,5 +1,6 @@
 package jp.yukiat.stealplugin;
 
+import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.enums.*;
 import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
@@ -7,7 +8,10 @@ import org.bukkit.entity.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
+import org.bukkit.metadata.*;
 import org.bukkit.scheduler.*;
+
+import java.util.*;
 
 public class Events implements Listener
 {
@@ -39,6 +43,14 @@ public class Events implements Listener
         if (StealPlugin.config.getBoolean("same"))
             seed = e.getPlayer().getName().hashCode();
 
+        int i = 0;
+
+        if (PlayerUtil.hasMetaData(e.getPlayer(), "steal"))
+        {
+            Optional<MetadataValue> mbs =  PlayerUtil.getMetaData(e.getPlayer(), "steal");
+            if (mbs.isPresent())
+                i = mbs.get().asInt();
+        }
 
         Integer finalSeed = seed;
         new BukkitRunnable()
@@ -51,13 +63,14 @@ public class Events implements Listener
         }.runTaskAsynchronously(StealPlugin.getPlugin());
 
 
+        int finalI = i;
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                StealPlugin.TextureData data = PlayerUtil.getTexture(finalSeed);
-                PlayerUtil.setSkin(clicked, data.getValue(), data.getSignature());
+                Skin skin = SkinContainer.getSkinBy(clicked.getName(), finalI);
+                PlayerUtil.setSkin(clicked, skin.value, skin.signature);
 
                 ItemStack st = ItemFactory.getThiefItem(e.getPlayer(), null, MaterialType.LEATHER);
             }

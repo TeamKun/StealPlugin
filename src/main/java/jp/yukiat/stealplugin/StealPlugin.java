@@ -34,6 +34,7 @@ public final class StealPlugin extends JavaPlugin
                     this.dataMap.put(r.get("name"), new TextureData(r.get("value"), r.get("signature")));
                 });
         SpecialConfig.loadConfig();
+        SkinContainer.loadSkin();
     }
 
     public Map<String, TextureData> getDataMap()
