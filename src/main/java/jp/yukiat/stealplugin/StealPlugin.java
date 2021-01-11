@@ -4,6 +4,7 @@ import jp.yukiat.stealplugin.commands.*;
 import jp.yukiat.stealplugin.config.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.*;
+import org.bukkit.configuration.serialization.*;
 import org.bukkit.plugin.java.*;
 
 import java.util.*;
@@ -33,9 +34,11 @@ public final class StealPlugin extends JavaPlugin
                 .forEach(r -> {
                     this.dataMap.put(r.get("name"), new TextureData(r.get("value"), r.get("signature")));
                 });
+
         SpecialConfig.loadConfig();
         SkinContainer.loadSkin();
     }
+
 
     public Map<String, TextureData> getDataMap()
     {

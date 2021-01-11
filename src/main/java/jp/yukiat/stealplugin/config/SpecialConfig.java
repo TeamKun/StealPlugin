@@ -1,23 +1,28 @@
 package jp.yukiat.stealplugin.config;
 
+import com.fasterxml.jackson.databind.*;
 import com.google.gson.*;
+import com.google.gson.reflect.*;
 import jp.yukiat.stealplugin.*;
 import org.bukkit.*;
 
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
+import java.util.logging.*;
 
 public class SpecialConfig
 {
-    private static ArrayList<SpecialCore> specials = new ArrayList<>();
+    private static ArrayList<SpecialCore> specials = new ArrayList<SpecialCore>();
     private static final ArrayList<String> names = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     public static void loadConfig()
     {
         specials = (ArrayList<SpecialCore>) StealPlugin.config.getObject("specials", ArrayList.class);
+        specials = new Gson().fromJson(new Gson().toJson(specials), new TypeToken<ArrayList<SpecialCore>>(){}.getType());
         Bukkit.getLogger().info(new Gson().toJson(specials));
-        ((ArrayList<SpecialCore>)specials).forEach(specialCore -> names.add(specialCore.name));
+        (new ArrayList<>(specials)).forEach(specialCore -> names.add(specialCore.name));
     }
 
     public static boolean containsSpecial(String name)

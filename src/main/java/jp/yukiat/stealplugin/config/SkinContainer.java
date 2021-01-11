@@ -1,5 +1,7 @@
 package jp.yukiat.stealplugin.config;
 
+import com.google.gson.*;
+import com.google.gson.reflect.*;
 import jp.yukiat.stealplugin.*;
 
 import java.util.*;
@@ -14,6 +16,7 @@ public class SkinContainer
     public static void loadSkin()
     {
         skins = (ArrayList<Skin>) StealPlugin.config.getObject("skins", ArrayList.class);
+        skins = new Gson().fromJson(new Gson().toJson(skins), new TypeToken<ArrayList<Skin>>(){}.getType());
         skins.forEach(skin -> names.add(skin.name));
     }
 

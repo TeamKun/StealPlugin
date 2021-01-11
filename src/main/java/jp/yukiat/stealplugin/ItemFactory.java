@@ -81,7 +81,6 @@ public class ItemFactory
             return getRandomItemStack(type, material);
 
         AtomicReference<MaterialType> realMaterial = new AtomicReference<>(material);
-        AtomicReference<ArmorType> realType = new AtomicReference<>(type);
         AtomicReference<Color> color = new AtomicReference<>(Color.fromRGB(
                 new Random().nextInt(256),
                 new Random().nextInt(256),
@@ -95,6 +94,10 @@ public class ItemFactory
             realMaterial.set(core.material);
 
         core.items.forEach(item -> {
+            if (item.type == null || item.type != type)
+                return;
+
+
             if (item.color != null && item.color.length() == 7)
             {
                 color.set(Color.fromRGB(
@@ -109,11 +112,10 @@ public class ItemFactory
 
             if (item.name != null)
                 name.set(item.name);
-            if (item.type != null)
-                realType.set(item.type);
+
 
         });
-        ItemStack baseItem = getBaseItem(realType.get(), realMaterial.get());
+        ItemStack baseItem = getBaseItem(type, realMaterial.get());
         ItemMeta meta = baseItem.getItemMeta();
         meta.setDisplayName(name.get());
 
