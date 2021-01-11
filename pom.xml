@@ -65,10 +65,6 @@
             <id>tunnel</id>
             <url>https://repo.mikeprimm.com/</url>
         </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -77,11 +73,6 @@
             <artifactId>paper-api</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.InventivetalentDev.NickNamer</groupId>
-            <artifactId>api</artifactId>
-            <version>3.18.5-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
