@@ -1,12 +1,8 @@
 name: StealPlugin
 version: ${project.version}
 main: jp.yukiat.stealplugin.StealPlugin
-depend: [NickNamer]
 api-version: 1.15
 commands:
-  skull:
-    usage: /<Command>
-    description: 骸骨の入手
   change:
     usage: /<Command>
     description: スキン変更

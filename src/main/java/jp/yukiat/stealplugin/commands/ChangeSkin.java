@@ -1,12 +1,9 @@
 package jp.yukiat.stealplugin.commands;
 
-import com.mojang.authlib.*;
-import com.mojang.authlib.properties.*;
 import jp.yukiat.stealplugin.*;
-import net.minecraft.server.v1_15_R1.*;
+import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
-import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.entity.*;
 
 public class ChangeSkin implements CommandExecutor
@@ -32,25 +29,10 @@ public class ChangeSkin implements CommandExecutor
         }
 
         Player player = (Player) sender;
-        setSkin(player,  StealPlugin.getPlugin().getDataMap().get(args[0]).getValue(), StealPlugin.getPlugin().getDataMap().get(args[0]).getSignature());
+        PlayerUtil.setSkin(player, StealPlugin.getPlugin().getDataMap().get(args[0]).getValue(), StealPlugin.getPlugin().getDataMap().get(args[0]).getSignature());
         sender.sendMessage(ChatColor.GREEN + "スキンを変更しました。");
 
         return true;
-    }
-
-    public void setSkin(Player p, String texture, String s){
-        GameProfile gp = ((CraftPlayer)p).getProfile();
-        gp.getProperties().clear();
-        gp.getProperties().put("textures", new Property("textures", texture, s));
-        // Update the player
-
-        EntityPlayer ep = ((CraftPlayer) p).getHandle();
-        p.getWorld().getPlayers().forEach(player -> {
-            player.hidePlayer(StealPlugin.getPlugin(), p);
-            player.showPlayer(StealPlugin.getPlugin(), p);
-
-        });
-
     }
 
 }
