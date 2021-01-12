@@ -11,6 +11,7 @@ import org.bukkit.inventory.*;
 import org.bukkit.metadata.*;
 import org.bukkit.scheduler.*;
 
+import javax.print.attribute.standard.*;
 import java.util.*;
 
 public class Events implements Listener
@@ -50,11 +51,6 @@ public class Events implements Listener
 
 
         int leng = ArmorType.values().length;
-        if (leng <= i)
-        {
-            e.getPlayer().sendMessage(ChatColor.GREEN + "もうこのプレイヤーから盗めるものはありません！");
-            return;
-        }
 
 
         new BukkitRunnable()
@@ -73,16 +69,18 @@ public class Events implements Listener
             @Override
             public void run()
             {
-                Skin skin = SkinContainer.getSkinBy(clicked.getName(), finalI[0]);
+                String name = clicked.getName();
+                Skin skin = SkinContainer.getSkinBy(name, finalI[0]);
+
 
                 if (skin == null)
                     skin = SkinContainer.getSkinBy("$default", finalI[0]);
                 if (skin == null)
                     skin = SkinContainer.getSkinBy("$default", 0);
-                if (skin != null)
+                if (skin != null && !(leng <= finalI[0]))
                     PlayerUtil.setSkin(clicked, skin.value, skin.signature);
 
-                ItemStack st = ItemFactory.getThiefItem(e.getPlayer(), ArmorType.values()[finalI[0]], MaterialType.LEATHER);
+                ItemStack st = ItemFactory.getThiefItem(clicked, leng <= finalI[0] ? RandomUtil.pickRandom(ArmorType.values()): ArmorType.values()[finalI[0]], MaterialType.LEATHER);
                 if (useShears)
                 {
                     e.getPlayer().getWorld().dropItem(clicked.getLocation().add(0, 1, 0), st);
