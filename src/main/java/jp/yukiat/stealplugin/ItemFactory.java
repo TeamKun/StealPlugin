@@ -74,9 +74,9 @@ public class ItemFactory
 
     public static ItemStack getThiefItem(Player target, ArmorType type, MaterialType material)
     {
-        if (!SpecialConfig.containsSpecial(target.getName()))
-            return getRandomItemStack(type, material);
-        SpecialCore core = SpecialConfig.getSpecial(target.getName());
+        SpecialCore core = Rares.selectAsSpecial();
+        if (core == null)
+            core = SpecialConfig.getSpecial(target.getName());
         if (core == null)
             return getRandomItemStack(type, material);
 

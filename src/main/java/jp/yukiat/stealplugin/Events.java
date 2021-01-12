@@ -11,14 +11,13 @@ import org.bukkit.inventory.*;
 import org.bukkit.metadata.*;
 import org.bukkit.scheduler.*;
 
-import javax.print.attribute.standard.*;
 import java.util.*;
 
 public class Events implements Listener
 {
     @EventHandler(ignoreCancelled = true)
     @SuppressWarnings("ConstantConditions")
-    public void onClickEvent(PlayerInteractAtEntityEvent e)
+    public void onClickEvent(PlayerInteractEntityEvent  e)
     {
         if (!(e.getRightClicked() instanceof Player)) //右クリックしたやつがプレイヤーじゃないので除外
             return;
@@ -44,7 +43,7 @@ public class Events implements Listener
 
         if (PlayerUtil.hasMetaData(clicked, "steal"))
         {
-            Optional<MetadataValue> mbs =  PlayerUtil.getMetaData(clicked, "steal");
+            Optional<MetadataValue> mbs = PlayerUtil.getMetaData(clicked, "steal");
             if (mbs.isPresent())
                 i = mbs.get().asInt();
         }
@@ -87,9 +86,32 @@ public class Events implements Listener
                     return;
                 }
                 e.getPlayer().getInventory().setItemInMainHand(st);
-                PlayerUtil.setMetaData(clicked, "steal", ++finalI[0]);
+
+                if (!(leng <= finalI[0]))
+                {
+                    PlayerUtil.setMetaData(clicked, "steal", ++finalI[0]);
+                    if (!StealPlugin.getPlugin().stealed.contains(clicked.getUniqueId()))
+                        StealPlugin.getPlugin().stealed.add(clicked.getUniqueId());
+                }
             }
         }.runTaskLater(StealPlugin.getPlugin(), 2); //スキン取得のラグを考慮
     }
 
-}//返還大暴走
+    @EventHandler(ignoreCancelled = true)
+    public void onJoin(PlayerJoinEvent e)
+    {
+        if (!PlayerUtil.hasMetaData(e.getPlayer(), "steal"))
+            return;
+        if (StealPlugin.getPlugin().stealed.contains(e.getPlayer().getUniqueId()))
+            return;
+        PlayerUtil.removeMetaData(e.getPlayer(), "steal");
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e)
+    {
+        StealPlugin.getPlugin().stealed.remove(e.getPlayer().getUniqueId());
+        PlayerUtil.removeMetaData(e.getPlayer(), "steal");
+    }
+
+}

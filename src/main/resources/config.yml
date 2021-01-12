@@ -21,20 +21,33 @@ specials:
       - type: HELMET
         name: "いけこのエッチな帽子"
         # color: "#000000"
+        # material: LEATHER
       - type: CHESTPLATE
         name: "いけこのエッチな上着"
-        # color: "#000000"
       - type: LEGGINGS
         name: "いけこのエッチなズボン"
-        # color: "#000000"
       - type: BOOTS
         name: "いけこのエッチなヒール"
-        # color: "#000000"
+
+#レアなアイテム
+rares:
+  - chance: 50 #50回に1回
+    item:
+      name: ""
+      material: LEATHER
+      type: CHESTPLATE
+      color: "#282f5b"
+
+#服回復時間(秒)
+heal: 30
 
 #スキン
+#装備は頭から取れていきます。
+#足も取られた場合、その後はランダムです
+#orderの最大値は4で、上のheal時間ごとに前のorderのスキンに変わります。最終的に自分のデフォスキンとなります。
 skins:
   - name: "YOSHIKO__chan__"
-    order: 0
+    order: 0 #脱げる順番
     value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDMwNzc5NzM4NiwKICAicHJvZmlsZUlkIiA6ICJiNzQ3OWJhZTI5YzQ0YjIzYmE1NjI4MzM3OGYwZTNjNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTeWxlZXgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc1MzQ1MzM0NWRjNzY1MmVjZTBiNzc4Mjc2OGVkMmY2Zjg4NjNhOWU1MzUyMDFhODUzNTUyMjBmOWY5MjBjIgogICAgfQogIH0KfQ=="
     signature: "kyPGlJ1i3wTBBvMnoNRze73wgf2ylxLWIzHEJhs7bugFrtWX+3bJdgfN/tC5s3dDMJ6yIcgjvVu7utkILC0M0Q9vYPjDrm1w3I/FmOWeQ64Q1hlmISk7AgAG2JaSS9EzLSVlvJLvdPogdgHwHe0dDkV31a1WCWUpBRDhYcYSj3oMgD6aw9Y03XVScsYzMZKZQG+GKD1EwY0RM0xvDLDmO3FVPDYCqpxzut3JEV/o6kL2XEvYa5H+5iEOuBcKoVnBDaUMIHExAoRtnfyNzZIfc2wK+ytHn1pY7vZPdHsEbKAXIxb8w93S/rFhPOzGzujOa0e+s6VqyfCsjRhHBp+Xj1COlQqAhObOS4shtzTs4vFsZKtDm+bQrHegCuEIflh2+ChqQ92BY+FbHz1La0OiyXmuGeqeSh9aSgr8Qxp5fS80IHVA9JLgRCG8mRY14c+Hwc08+ZE7l6RHLSRQtdU2cZUBqxw4RRCek+00q6kXyhIN2BMtN8zl6GD0t7JZG6F475FoisLnZpnsmEoW+mvkwzpKIg0SmZAs7nFpd9t9dSYhE/E36M+ccWoywXGoN6v3mAMcgO+iY2J7aq+wswNWx/jZi5vKxKP9tN3OXCEn/7D3uNDmLZy30YTtM+u2AVT8pqAeo1Mr3BWaWQfeRkAaxyjUZC9F0GCAcJHmLRqyXac="
   - name: "YOSHIKO__chan__"

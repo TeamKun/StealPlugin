@@ -1,10 +1,10 @@
 package jp.yukiat.stealplugin;
 
+import com.sun.prism.*;
 import jp.yukiat.stealplugin.commands.*;
 import jp.yukiat.stealplugin.config.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.*;
-import org.bukkit.configuration.serialization.*;
 import org.bukkit.plugin.java.*;
 
 import java.util.*;
@@ -13,6 +13,8 @@ public final class StealPlugin extends JavaPlugin
 {
     public static FileConfiguration config;
     private static StealPlugin plugin;
+    public final ArrayList<UUID> stealed = new ArrayList<>();
+
     private final Map<String, TextureData> dataMap = new HashMap<>();
 
     public static StealPlugin getPlugin()
@@ -37,8 +39,14 @@ public final class StealPlugin extends JavaPlugin
 
         SpecialConfig.loadConfig();
         SkinContainer.loadSkin();
-    }
+        Rares.loadRare();
 
+        long heal = config.getLong("heal");
+        if (heal == 0)
+            heal = 1;
+        heal = heal * 20;
+        new HealTimer().runTaskTimer(this, 0, heal);
+    }
 
     public Map<String, TextureData> getDataMap()
     {
@@ -69,6 +77,16 @@ public final class StealPlugin extends JavaPlugin
         public String getSignature()
         {
             return signature;
+        }
+
+        public boolean isEmpty()
+        {
+            return value == null || signature == null || value.equals("") || signature.equals("");
+        }
+
+        public static TextureData empty()
+        {
+            return new TextureData("", "");
         }
     }
 

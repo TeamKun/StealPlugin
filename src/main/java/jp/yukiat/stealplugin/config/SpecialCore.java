@@ -1,7 +1,6 @@
 package jp.yukiat.stealplugin.config;
 
 import jp.yukiat.stealplugin.enums.*;
-import org.bukkit.configuration.serialization.*;
 
 import java.util.*;
 

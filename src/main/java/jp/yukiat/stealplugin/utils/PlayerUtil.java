@@ -4,15 +4,14 @@ import com.fasterxml.jackson.databind.*;
 import com.mojang.authlib.*;
 import com.mojang.authlib.properties.*;
 import jp.yukiat.stealplugin.*;
-import org.apache.commons.lang.*;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.metadata.*;
+import org.bukkit.scheduler.*;
 
-import javax.annotation.*;
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.*;
@@ -55,6 +54,13 @@ public class PlayerUtil
         return skull;
     }
 
+    public static void setSkin(Player player, StealPlugin.TextureData data)
+    {
+        if (data.isEmpty())
+            return;
+        setSkin(player, data.getSignature(), data.getValue());
+    }
+
     public static void setSkin(Player p, String value, String signature)
     {
         GameProfile gp = ((CraftPlayer) p).getProfile();
@@ -68,6 +74,20 @@ public class PlayerUtil
 
     }
 
+    public static void setDefaultSkinAsync(Player p)
+    {
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                StealPlugin.TextureData data = getSkin(p.getUniqueId());
+                Bukkit.getScheduler().runTask(StealPlugin.getPlugin(), () -> setSkin(p, data));
+
+            }
+        }.runTaskAsynchronously(StealPlugin.getPlugin());
+    }
+
     public static StealPlugin.TextureData getSkin(UUID player)
     {
         String strPlayer = player.toString().replace("-", "");
@@ -78,7 +98,7 @@ public class PlayerUtil
             connection.setRequestMethod("GET");
             connection.connect();
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-                return new StealPlugin.TextureData("", "");
+                return StealPlugin.TextureData.empty();
 
             try (InputStream stream = connection.getInputStream();
                  BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream)))
@@ -91,13 +111,13 @@ public class PlayerUtil
                 for (JsonNode node : tree.get("properties"))
                     if (node.get("name").asText().equals("textures"))
                         return new StealPlugin.TextureData(node.get("value").asText(), node.get("signature").asText());
-                return new StealPlugin.TextureData("", "");
+                return StealPlugin.TextureData.empty();
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            return new StealPlugin.TextureData("", "");
+            return StealPlugin.TextureData.empty();
         }
     }
 

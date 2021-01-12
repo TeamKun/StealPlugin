@@ -9,14 +9,16 @@ import java.util.stream.*;
 
 public class SkinContainer
 {
-    private static ArrayList<Skin> skins = new ArrayList<>();
     private static final ArrayList<String> names = new ArrayList<>();
+    private static ArrayList<Skin> skins = new ArrayList<>();
 
     @SuppressWarnings("all")
     public static void loadSkin()
     {
         skins = (ArrayList<Skin>) StealPlugin.config.getObject("skins", ArrayList.class);
-        skins = new Gson().fromJson(new Gson().toJson(skins), new TypeToken<ArrayList<Skin>>(){}.getType());
+        skins = new Gson().fromJson(new Gson().toJson(skins), new TypeToken<ArrayList<Skin>>()
+        {
+        }.getType());
         skins.forEach(skin -> names.add(skin.name));
     }
 
