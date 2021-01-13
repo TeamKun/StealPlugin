@@ -18,7 +18,7 @@ public class ChangeSkin implements CommandExecutor
 
         if (args.length != 1)
         {
-            sender.sendMessage(ChatColor.RED + "エラー：引数の数がおかしいです！使用法：/skull <なまえ>");
+            sender.sendMessage(ChatColor.RED + "エラー：引数の数がおかしいです！使用法：/change <おーだーばんごう>");
             return true;
         }
 

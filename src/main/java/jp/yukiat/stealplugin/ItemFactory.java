@@ -21,8 +21,8 @@ public class ItemFactory
             case LEATHER:
                 switch (type)
                 {
-                    case HELMET:
-                        return new ItemStack(Material.LEATHER_HELMET);
+//                    case HELMET:
+//                        return new ItemStack(Material.LEATHER_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.LEATHER_CHESTPLATE);
                     case LEGGINGS:
@@ -33,8 +33,8 @@ public class ItemFactory
             case GOLD:
                 switch (type)
                 {
-                    case HELMET:
-                        return new ItemStack(Material.GOLDEN_HELMET);
+//                    case HELMET:
+//                        return new ItemStack(Material.GOLDEN_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.GOLDEN_CHESTPLATE);
                     case LEGGINGS:
@@ -45,8 +45,8 @@ public class ItemFactory
             case CHAIN:
                 switch (type)
                 {
-                    case HELMET:
-                        return new ItemStack(Material.CHAINMAIL_HELMET);
+//                    case HELMET:
+//                        return new ItemStack(Material.CHAINMAIL_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.CHAINMAIL_CHESTPLATE);
                     case LEGGINGS:
@@ -57,8 +57,8 @@ public class ItemFactory
             case DIAMOND:
                 switch (type)
                 {
-                    case HELMET:
-                        return new ItemStack(Material.LEATHER_HELMET);
+//                    case HELMET:
+//                        return new ItemStack(Material.LEATHER_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.LEATHER_CHESTPLATE);
                     case LEGGINGS:

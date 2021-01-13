@@ -1,6 +1,5 @@
 package jp.yukiat.stealplugin;
 
-import com.sun.prism.*;
 import jp.yukiat.stealplugin.commands.*;
 import jp.yukiat.stealplugin.config.*;
 import org.bukkit.*;

@@ -39,7 +39,7 @@ public class HealTimer extends BukkitRunnable
 
             if (l >= 0)
             {
-                Skin data = SkinContainer.getSkinBy(player.getName(), Math.toIntExact(l));
+                Skin data = SkinContainer.getSkinByOrder(Math.toIntExact(l));
                 if (data != null)
                     PlayerUtil.setSkin(player, data.value, data.signature);
                 else

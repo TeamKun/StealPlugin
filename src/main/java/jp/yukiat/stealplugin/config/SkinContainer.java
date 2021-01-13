@@ -9,7 +9,6 @@ import java.util.stream.*;
 
 public class SkinContainer
 {
-    private static final ArrayList<String> names = new ArrayList<>();
     private static ArrayList<Skin> skins = new ArrayList<>();
 
     @SuppressWarnings("all")
@@ -19,25 +18,25 @@ public class SkinContainer
         skins = new Gson().fromJson(new Gson().toJson(skins), new TypeToken<ArrayList<Skin>>()
         {
         }.getType());
-        skins.forEach(skin -> names.add(skin.name));
     }
 
-    public static boolean contains(String name)
+    public static boolean contains(int order)
     {
-        return names.contains(name);
+        return order < skins.size();
     }
 
     @SuppressWarnings("unchecked")
-    public static Skin getSkinBy(String name, int index)
+    public static Skin getSkinByOrder(int order)
     {
         ArrayList<Skin> skins = (ArrayList<Skin>) SkinContainer.skins.clone();
 
-        skins = skins.stream().filter(skin -> skin.name.equals(name)).collect(Collectors.toCollection(ArrayList::new));
-
-        if (skins.size() > index)
-            return skins.get(index);
+        // そのオーダーレベルのスキンが存在していたら返す
+        if (order < skins.size())
+            return skins.get(order);
+        // 存在していなければオーダー0のスキンを返す
         else if (skins.size() > 1)
             return skins.get(0);
+        // それでも存在しなければnullを返す
         else
             return null;
     }

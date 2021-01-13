@@ -56,7 +56,7 @@ public class Events implements Listener
         }
 
 
-        int leng = ArmorType.values().length;
+        int len = ArmorType.values().length;
 
 
         new BukkitRunnable()
@@ -69,24 +69,21 @@ public class Events implements Listener
         }.runTaskAsynchronously(StealPlugin.getPlugin());
 
 
-        final int[] finalI = {i};
+        final int order = i;
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                String name = clicked.getName();
-                Skin skin = SkinContainer.getSkinBy(name, finalI[0]);
+                Skin skin = SkinContainer.getSkinByOrder(order);
 
-
+                // もしスキンが見つからなければ
                 if (skin == null)
-                    skin = SkinContainer.getSkinBy("$default", finalI[0]);
-                if (skin == null)
-                    skin = SkinContainer.getSkinBy("$default", 0);
-                if (skin != null && !(leng <= finalI[0]))
+                    skin = SkinContainer.getSkinByOrder(0);
+                if (skin != null && !(len <= order))
                     PlayerUtil.setSkin(clicked, skin.value, skin.signature);
 
-                ItemStack st = ItemFactory.getThiefItem(clicked, leng <= finalI[0] ? RandomUtil.pickRandom(ArmorType.values()): ArmorType.values()[finalI[0]], MaterialType.LEATHER);
+                ItemStack st = ItemFactory.getThiefItem(clicked, len <= order ? RandomUtil.pickRandom(ArmorType.values()): ArmorType.values()[order], MaterialType.LEATHER);
                 if (useShears)
                 {
                     e.getPlayer().getWorld().dropItem(clicked.getLocation().add(0, 1, 0), st);
@@ -94,9 +91,9 @@ public class Events implements Listener
                 }
                 e.getPlayer().getInventory().setItemInMainHand(st);
 
-                if (!(leng <= finalI[0]))
+                if (!(len <= order))
                 {
-                    PlayerUtil.setMetaData(clicked, "steal", ++finalI[0]);
+                    PlayerUtil.setMetaData(clicked, "steal", order + 1);
                     if (!StealPlugin.getPlugin().stealed.contains(clicked.getUniqueId()))
                         StealPlugin.getPlugin().stealed.add(clicked.getUniqueId());
                 }
