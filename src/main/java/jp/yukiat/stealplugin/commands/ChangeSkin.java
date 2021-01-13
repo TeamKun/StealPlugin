@@ -1,6 +1,8 @@
 package jp.yukiat.stealplugin.commands;
 
 import jp.yukiat.stealplugin.*;
+import jp.yukiat.stealplugin.config.Skin;
+import jp.yukiat.stealplugin.config.SkinContainer;
 import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
@@ -22,14 +24,24 @@ public class ChangeSkin implements CommandExecutor
             return true;
         }
 
-        if (!StealPlugin.getPlugin().getDataMap().containsKey(args[0]))
-        {
-            sender.sendMessage(ChatColor.RED + "エラー：認識できないスキン名です。");
+        int order;
+
+        try {
+            order = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ChatColor.RED + "エラー：引数の指定がおかしいです！使用法：/change <おーだー番号>");
+            return true;
+        }
+
+        Skin skin = SkinContainer.getSkinByOrder(order);
+
+        if (skin == null) {
+            sender.sendMessage(ChatColor.RED + "エラー：スキンが存在しません！");
             return true;
         }
 
         Player player = (Player) sender;
-        PlayerUtil.setSkin(player, StealPlugin.getPlugin().getDataMap().get(args[0]).getValue(), StealPlugin.getPlugin().getDataMap().get(args[0]).getSignature());
+        PlayerUtil.setSkin(player, skin.value, skin.signature);
         sender.sendMessage(ChatColor.GREEN + "スキンを変更しました。");
 
         return true;

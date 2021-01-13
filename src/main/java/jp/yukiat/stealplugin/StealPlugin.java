@@ -14,8 +14,6 @@ public final class StealPlugin extends JavaPlugin
     private static StealPlugin plugin;
     public final ArrayList<UUID> stealed = new ArrayList<>();
 
-    private final Map<String, TextureData> dataMap = new HashMap<>();
-
     public static StealPlugin getPlugin()
     {
         return plugin;
@@ -31,10 +29,6 @@ public final class StealPlugin extends JavaPlugin
 
         saveDefaultConfig();
         config = getConfig();
-        ((List<HashMap<String, String>>) Objects.requireNonNull(config.getList("skins")))
-                .forEach(r -> {
-                    this.dataMap.put(r.get("name"), new TextureData(r.get("value"), r.get("signature")));
-                });
 
         SpecialConfig.loadConfig();
         SkinContainer.loadSkin();
@@ -45,11 +39,6 @@ public final class StealPlugin extends JavaPlugin
             heal = 1;
         heal = heal * 20;
         new HealTimer().runTaskTimer(this, 0, heal);
-    }
-
-    public Map<String, TextureData> getDataMap()
-    {
-        return dataMap;
     }
 
     @Override
