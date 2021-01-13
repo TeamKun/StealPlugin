@@ -38,13 +38,10 @@ public class Events implements Listener
             return;
 
         // 素手もしくはハサミを持っていなければ除外
-        if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR &&
-                e.getPlayer().getInventory().getItemInMainHand().getType() != Material.SHEARS) {
-            e.getPlayer().sendMessage(ChatColor.RED + "素手もしくはハサミを持っていないと服を盗めないよ！");
+        if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR) {
+            e.getPlayer().sendMessage(ChatColor.RED + "素手じゃないと服を盗めないよ！");
             return;
         }
-
-        boolean useShears = e.getPlayer().getInventory().getItemInMainHand().getType() == Material.SHEARS;
 
         int i = 0;
 
@@ -55,9 +52,13 @@ public class Events implements Listener
                 i = mbs.get().asInt();
         }
 
+        int len = ArmorType.values().length; // 3
 
-        int len = ArmorType.values().length;
-
+        if (i >= len)
+        {
+            e.getPlayer().sendMessage(ChatColor.RED + "ふくきてないよ！！！");
+            return;
+        }
 
         new BukkitRunnable()
         {
@@ -68,35 +69,29 @@ public class Events implements Listener
             }
         }.runTaskAsynchronously(StealPlugin.getPlugin());
 
-
         final int order = i;
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                Skin skin = SkinContainer.getSkinByOrder(order);
+                Skin skin = SkinContainer.getSkinByOrder(order + 1);
 
                 // もしスキンが見つからなければ
                 if (skin == null)
                     skin = SkinContainer.getSkinByOrder(0);
-                if (skin != null && !(len <= order))
+                if (skin != null)
                     PlayerUtil.setSkin(clicked, skin.value, skin.signature);
 
-                ItemStack st = ItemFactory.getThiefItem(clicked, len <= order ? RandomUtil.pickRandom(ArmorType.values()): ArmorType.values()[order], MaterialType.LEATHER);
-                if (useShears)
-                {
-                    e.getPlayer().getWorld().dropItem(clicked.getLocation().add(0, 1, 0), st);
-                    return;
-                }
+                clicked.sendMessage(ChatColor.GREEN + ArmorType.values()[order].getDisplayName() + "を盗まれました。");
+
+                ItemStack st = ItemFactory.getThiefItem(clicked, ArmorType.values()[order], MaterialType.LEATHER);
                 e.getPlayer().getInventory().setItemInMainHand(st);
 
-                if (!(len <= order))
-                {
-                    PlayerUtil.setMetaData(clicked, "steal", order + 1);
-                    if (!StealPlugin.getPlugin().stealed.contains(clicked.getUniqueId()))
-                        StealPlugin.getPlugin().stealed.add(clicked.getUniqueId());
-                }
+                PlayerUtil.setMetaData(clicked, "steal", order + 1);
+                if (!StealPlugin.getPlugin().stealed.contains(clicked.getUniqueId()))
+                    StealPlugin.getPlugin().stealed.add(clicked.getUniqueId());
+
             }
         }.runTaskLater(StealPlugin.getPlugin(), 2); //スキン取得のラグを考慮
     }
@@ -104,11 +99,22 @@ public class Events implements Listener
     @EventHandler(ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent e)
     {
-        if (!PlayerUtil.hasMetaData(e.getPlayer(), "steal"))
-            return;
-        if (StealPlugin.getPlugin().stealed.contains(e.getPlayer().getUniqueId()))
-            return;
-        PlayerUtil.removeMetaData(e.getPlayer(), "steal");
+        if (StealPlugin.config.getStringList("target").contains(e.getPlayer().getName()))
+        {
+            new BukkitRunnable()
+            {
+                @Override
+                public void run()
+                {
+                    e.getPlayer().getInventory().setHelmet(PlayerUtil.getSkullStack(PlayerUtil.getSkin(e.getPlayer().getUniqueId())));
+                }
+            }.runTaskAsynchronously(StealPlugin.getPlugin());
+            Skin def = SkinContainer.getSkinByOrder(0);
+            if (def == null)
+                return;
+            PlayerUtil.setSkin(e.getPlayer(), def.value, def.signature);
+            PlayerUtil.setMetaData(e.getPlayer(), "steal", 0);
+        }
     }
 
     @EventHandler

@@ -78,7 +78,7 @@ public class ItemFactory
         if (core == null)
             core = SpecialConfig.getSpecial(target.getName());
         if (core == null)
-            return getRandomItemStack(type, material);
+            return getRandomItemStack(target.getName(), type, material);
 
         AtomicReference<MaterialType> realMaterial = new AtomicReference<>(material);
         AtomicReference<Color> color = new AtomicReference<>(Color.fromRGB(
@@ -86,9 +86,8 @@ public class ItemFactory
                 new Random().nextInt(256),
                 new Random().nextInt(256)
         ));
-        AtomicReference<String> name = new AtomicReference<>(RandomUtil.pickRandom("綺麗な", "かわいい", "ボーイッシュな", "清楚な", "小洒落た", "あの子の") +
-                material.getDisplayName() +
-                type.getDisplayName());
+        AtomicReference<String> name = new AtomicReference<>(
+                ChatColor.GOLD + target.getName() + ChatColor.AQUA + type.getDisplayName());
 
         if (core.material != null)
             realMaterial.set(core.material);
@@ -133,14 +132,12 @@ public class ItemFactory
         return baseItem;
     }
 
-    public static ItemStack getRandomItemStack(ArmorType type, MaterialType material)
+    public static ItemStack getRandomItemStack(String playerName, ArmorType type, MaterialType material)
     {
         ItemStack baseItem = getBaseItem(type, material);
 
         ItemMeta meta = baseItem.getItemMeta();
-        meta.setDisplayName(RandomUtil.pickRandom("綺麗な", "かわいい", "ボーイッシュな", "清楚な", "小洒落た", "あの子の") +
-                material.getDisplayName() +
-                type.getDisplayName());
+        meta.setDisplayName(ChatColor.GOLD + playerName + ChatColor.AQUA + type.getDisplayName());
 
         if (material != MaterialType.LEATHER)
         {

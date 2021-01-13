@@ -3,9 +3,9 @@ package jp.yukiat.stealplugin.enums;
 public enum ArmorType
 {
     // HELMET("帽子"),
-    CHESTPLATE("服"),
-    LEGGINGS("パンツ"),
-    BOOTS("靴");
+    BOOTS("靴"),
+    CHESTPLATE("上着"),
+    LEGGINGS("パンツ");
 
     private final String displayName;
 

@@ -3,6 +3,7 @@ package jp.yukiat.stealplugin.config;
 import com.google.gson.*;
 import com.google.gson.reflect.*;
 import jp.yukiat.stealplugin.*;
+import org.bukkit.*;
 
 import java.util.*;
 import java.util.stream.*;
@@ -25,11 +26,8 @@ public class SkinContainer
         return order < skins.size();
     }
 
-    @SuppressWarnings("unchecked")
     public static Skin getSkinByOrder(int order)
     {
-        ArrayList<Skin> skins = (ArrayList<Skin>) SkinContainer.skins.clone();
-
         // そのオーダーレベルのスキンが存在していたら返す
         if (order < skins.size())
             return skins.get(order);

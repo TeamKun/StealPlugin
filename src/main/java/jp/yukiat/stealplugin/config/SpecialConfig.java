@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.*;
 public class SpecialConfig
 {
     private static final ArrayList<String> names = new ArrayList<>();
-    private static ArrayList<SpecialCore> specials = new ArrayList<SpecialCore>();
+    private static ArrayList<SpecialCore> specials = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     public static void loadConfig()
