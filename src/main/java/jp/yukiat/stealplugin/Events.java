@@ -19,23 +19,30 @@ public class Events implements Listener
     @SuppressWarnings("ConstantConditions")
     public void onClickEvent(PlayerInteractEntityEvent  e)
     {
-        if (!(e.getRightClicked() instanceof Player)) //右クリックしたやつがプレイヤーじゃないので除外
+        //右クリックしたやつがプレイヤーじゃないので除外
+        if (!(e.getRightClicked() instanceof Player))
             return;
 
-        if (!e.getPlayer().isSneaking()) //スニークしてないので除外
+        //スニークしてないので除外
+        if (!e.getPlayer().isSneaking())
             return;
 
+        //盗人可能リストにいないので除外
         if (!StealPlugin.config.getList("thief").contains(e.getPlayer().getName()))
-            return; //盗人可能リストにいないので除外
+            return;
 
         Player clicked = (Player) e.getRightClicked();
 
+        //ターゲット可能リストにいないので除外
         if (!StealPlugin.config.getList("target").contains(clicked.getName()))
-            return; //ターゲット可能リストにいないので除外
-
-        if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR &&
-                e.getPlayer().getInventory().getItemInMainHand().getType() != Material.SHEARS)
             return;
+
+        // 素手もしくはハサミを持っていなければ除外
+        if (e.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR &&
+                e.getPlayer().getInventory().getItemInMainHand().getType() != Material.SHEARS) {
+            e.getPlayer().sendMessage(ChatColor.RED + "素手もしくはハサミを持っていないと服を盗めないよ！");
+            return;
+        }
 
         boolean useShears = e.getPlayer().getInventory().getItemInMainHand().getType() == Material.SHEARS;
 

@@ -2,6 +2,9 @@ name: StealPlugin
 version: ${project.version}
 main: jp.yukiat.stealplugin.StealPlugin
 api-version: 1.15
+authors:
+  - SaikyouPeyangsan
+  - YukiAt
 commands:
   change:
     usage: /<Command>
