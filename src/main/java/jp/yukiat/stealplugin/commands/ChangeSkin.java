@@ -1,8 +1,6 @@
 package jp.yukiat.stealplugin.commands;
 
-import jp.yukiat.stealplugin.*;
-import jp.yukiat.stealplugin.config.Skin;
-import jp.yukiat.stealplugin.config.SkinContainer;
+import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.command.*;
@@ -26,16 +24,20 @@ public class ChangeSkin implements CommandExecutor
 
         int order;
 
-        try {
+        try
+        {
             order = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e)
+        {
             sender.sendMessage(ChatColor.RED + "エラー：引数の指定がおかしいです！使用法：/change <おーだー番号>");
             return true;
         }
 
         Skin skin = SkinContainer.getSkinByOrder(order);
 
-        if (skin == null) {
+        if (skin == null)
+        {
             sender.sendMessage(ChatColor.RED + "エラー：スキンが存在しません！");
             return true;
         }

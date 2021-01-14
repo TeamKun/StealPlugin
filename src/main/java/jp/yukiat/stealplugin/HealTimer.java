@@ -44,13 +44,15 @@ public class HealTimer extends BukkitRunnable
                     PlayerUtil.setSkin(player, data);
                 else
                     PlayerUtil.setDefaultSkinAsync(player);
-                player.getWorld().spawnParticle(Particle.COMPOSTER,
+                player.getWorld().spawnParticle(
+                        Particle.COMPOSTER,
                         player.getLocation().add(0, 1, 0),
                         10,
                         0.3,
                         0.3,
                         0.3,
-                        0);
+                        0
+                );
                 PlayerUtil.setMetaData(player, "order", Math.toIntExact(l));
                 return;
             }

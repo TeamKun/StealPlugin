@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.*;
 import com.mojang.authlib.*;
 import com.mojang.authlib.properties.*;
 import jp.yukiat.stealplugin.*;
-import jp.yukiat.stealplugin.config.Skin;
+import jp.yukiat.stealplugin.config.*;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.entity.*;

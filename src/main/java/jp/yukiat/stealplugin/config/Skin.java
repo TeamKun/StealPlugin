@@ -5,24 +5,29 @@ public class Skin
     private final String value;
     private final String signature;
 
-    public Skin(String value, String signature) {
+    public Skin(String value, String signature)
+    {
         this.value = value;
         this.signature = signature;
     }
 
-    public String getValue() {
+    public static Skin getEmptyObject()
+    {
+        return new Skin("", "");
+    }
+
+    public String getValue()
+    {
         return value;
     }
 
-    public String getSignature() {
+    public String getSignature()
+    {
         return signature;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return value == null || signature == null || value.equals("") || signature.equals("");
-    }
-
-    public static Skin getEmptyObject() {
-        return new Skin("", "");
     }
 }

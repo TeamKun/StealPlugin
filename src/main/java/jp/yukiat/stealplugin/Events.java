@@ -40,7 +40,8 @@ public class Events implements Listener
             return;
 
         // 素手もしくはハサミを持っていなければ除外
-        if (thief.getInventory().getItemInMainHand().getType() != Material.AIR) {
+        if (thief.getInventory().getItemInMainHand().getType() != Material.AIR)
+        {
             thief.sendMessage(ChatColor.RED + "素手じゃないと服を盗めないよ！");
             return;
         }
@@ -73,15 +74,19 @@ public class Events implements Listener
                 Skin skin;
 
                 // 一撃で脱げる人は一発で全裸のスキンに変更
-                if (StealPlugin.config.getList("oneshots").contains(target.getName())) {
+                if (StealPlugin.config.getList("oneshots").contains(target.getName()))
+                {
                     skin = SkinContainer.getSkinByOrder(len);
-                    for (int i = order; i < len; i++) {
+                    for (int i = order; i < len; i++)
+                    {
                         thief.sendMessage(ChatColor.RED + target.getName() + "の" +
                                 ChatColor.GREEN + ArmorType.values()[i].getDisplayName() + "を盗みました！");
                         target.sendMessage(ChatColor.RED + thief.getName() + "に" +
                                 ChatColor.GREEN + ArmorType.values()[i].getDisplayName() + "を盗まれました！");
                     }
-                } else {
+                }
+                else
+                {
                     skin = SkinContainer.getSkinByOrder(order + 1);
                     thief.sendMessage(ChatColor.RED + target.getName() + "の" +
                             ChatColor.GREEN + ArmorType.values()[order + 1].getDisplayName() + "を盗みました！");
@@ -128,10 +133,13 @@ public class Events implements Listener
         PlayerUtil.removeMetaData(e.getPlayer(), "order");
     }
 
-    private void setOwnSkull(Player player) {
-        new BukkitRunnable() {
+    private void setOwnSkull(Player player)
+    {
+        new BukkitRunnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 player.getInventory().setHelmet(PlayerUtil.getSkullStack(PlayerUtil.getSkin(player.getUniqueId())));
             }
         }.runTaskAsynchronously(StealPlugin.getPlugin());

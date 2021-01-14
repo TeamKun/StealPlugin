@@ -32,7 +32,7 @@ public class Rares
 
     public static SpecialCore.Item select()
     {
-        for (RareItemEntry ent: rares)
+        for (RareItemEntry ent : rares)
         {
             if (ent.chance <= 0)
                 continue;
