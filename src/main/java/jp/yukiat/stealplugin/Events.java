@@ -17,7 +17,7 @@ public class Events implements Listener
 {
     @EventHandler(ignoreCancelled = true)
     @SuppressWarnings("ConstantConditions")
-    public void onClickEvent(PlayerInteractEntityEvent  e)
+    public void onClickEvent(PlayerInteractEntityEvent e)
     {
         Player thief = e.getPlayer();
 
@@ -57,8 +57,9 @@ public class Events implements Listener
 
         int len = ArmorType.values().length; // 3
 
-        if (order >= len) {
-            thief.sendMessage(ChatColor.RED + "ふくきてないよ！！！");
+        if (order >= len)
+        {
+            thief.sendMessage(ChatColor.RED + "もうはだかだよ！！！");
             return;
         }
 
