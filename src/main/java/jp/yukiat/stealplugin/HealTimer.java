@@ -25,7 +25,7 @@ public class HealTimer extends BukkitRunnable
             }
 
             Player player = Bukkit.getPlayer(uuid);
-            Optional<MetadataValue> stealed = PlayerUtil.getMetaData(player, "steal");
+            Optional<MetadataValue> stealed = PlayerUtil.getMetaData(player, "order");
 
             if (!stealed.isPresent())
             {
@@ -41,7 +41,7 @@ public class HealTimer extends BukkitRunnable
             {
                 Skin data = SkinContainer.getSkinByOrder(Math.toIntExact(l));
                 if (data != null)
-                    PlayerUtil.setSkin(player, data.value, data.signature);
+                    PlayerUtil.setSkin(player, data);
                 else
                     PlayerUtil.setDefaultSkinAsync(player);
                 player.getWorld().spawnParticle(Particle.COMPOSTER,
@@ -51,7 +51,7 @@ public class HealTimer extends BukkitRunnable
                         0.3,
                         0.3,
                         0);
-                PlayerUtil.setMetaData(player, "steal", Math.toIntExact(l));
+                PlayerUtil.setMetaData(player, "order", Math.toIntExact(l));
                 return;
             }
 
@@ -61,7 +61,7 @@ public class HealTimer extends BukkitRunnable
         remove.forEach(uuid -> {
             Player player = Bukkit.getPlayer(uuid);
             if (player != null)
-                PlayerUtil.removeMetaData(player, "steal");
+                PlayerUtil.removeMetaData(player, "order");
             StealPlugin.getPlugin().stealed.remove(uuid);
         });
     }

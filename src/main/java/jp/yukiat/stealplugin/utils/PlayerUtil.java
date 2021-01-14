@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.*;
 import com.mojang.authlib.*;
 import com.mojang.authlib.properties.*;
 import jp.yukiat.stealplugin.*;
+import jp.yukiat.stealplugin.config.Skin;
 import org.bukkit.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.entity.*;
@@ -20,12 +21,12 @@ import java.util.concurrent.atomic.*;
 
 public class PlayerUtil
 {
-    public static ItemStack getSkullStack(StealPlugin.TextureData data)
+    public static ItemStack getSkullStack(Skin skin)
     {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        profile.getProperties().put("textures", new Property("textures", data.getValue(), data.getSignature()));
+        profile.getProperties().put("textures", new Property("textures", skin.getValue(), skin.getSignature()));
 
         try
         {
@@ -54,11 +55,11 @@ public class PlayerUtil
         return skull;
     }
 
-    public static void setSkin(Player player, StealPlugin.TextureData data)
+    public static void setSkin(Player player, Skin skin)
     {
-        if (data.isEmpty())
+        if (skin.isEmpty())
             return;
-        setSkin(player, data.getSignature(), data.getValue());
+        setSkin(player, skin.getSignature(), skin.getValue());
     }
 
     public static void setSkin(Player p, String value, String signature)
@@ -81,14 +82,13 @@ public class PlayerUtil
             @Override
             public void run()
             {
-                StealPlugin.TextureData data = getSkin(p.getUniqueId());
-                Bukkit.getScheduler().runTask(StealPlugin.getPlugin(), () -> setSkin(p, data));
-
+                Skin skin = getSkin(p.getUniqueId());
+                Bukkit.getScheduler().runTask(StealPlugin.getPlugin(), () -> setSkin(p, skin));
             }
         }.runTaskAsynchronously(StealPlugin.getPlugin());
     }
 
-    public static StealPlugin.TextureData getSkin(UUID player)
+    public static Skin getSkin(UUID player) // getSkin やのに TextureData なんか返してんじゃねぇよ
     {
         String strPlayer = player.toString().replace("-", "");
         String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + strPlayer + "?unsigned=false";
@@ -98,7 +98,7 @@ public class PlayerUtil
             connection.setRequestMethod("GET");
             connection.connect();
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK)
-                return StealPlugin.TextureData.empty();
+                return Skin.getEmptyObject();
 
             try (InputStream stream = connection.getInputStream();
                  BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream)))
@@ -110,14 +110,14 @@ public class PlayerUtil
                 JsonNode tree = new ObjectMapper().readTree(o.toString());
                 for (JsonNode node : tree.get("properties"))
                     if (node.get("name").asText().equals("textures"))
-                        return new StealPlugin.TextureData(node.get("value").asText(), node.get("signature").asText());
-                return StealPlugin.TextureData.empty();
+                        return new Skin(node.get("value").asText(), node.get("signature").asText());
+                return Skin.getEmptyObject();
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
-            return StealPlugin.TextureData.empty();
+            return Skin.getEmptyObject();
         }
     }
 

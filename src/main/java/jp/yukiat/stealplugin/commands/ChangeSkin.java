@@ -41,7 +41,7 @@ public class ChangeSkin implements CommandExecutor
         }
 
         Player player = (Player) sender;
-        PlayerUtil.setSkin(player, skin.value, skin.signature);
+        PlayerUtil.setSkin(player, skin);
         sender.sendMessage(ChatColor.GREEN + "スキンを変更しました。");
 
         return true;

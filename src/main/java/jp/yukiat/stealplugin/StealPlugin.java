@@ -46,37 +46,4 @@ public final class StealPlugin extends JavaPlugin
     {
     }
 
-    public static class TextureData
-    {
-        private final String value;
-        private final String signature;
-
-        public TextureData(String value, String signature)
-        {
-            this.value = value;
-            this.signature = signature;
-        }
-
-        public String getValue()
-        {
-            return value;
-        }
-
-        public String getSignature()
-        {
-            return signature;
-        }
-
-        public boolean isEmpty()
-        {
-            return value == null || signature == null || value.equals("") || signature.equals("");
-        }
-
-        public static TextureData empty()
-        {
-            return new TextureData("", "");
-        }
-    }
-
 }
-

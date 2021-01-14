@@ -3,7 +3,6 @@ package jp.yukiat.stealplugin.config;
 import com.google.gson.*;
 import com.google.gson.reflect.*;
 import jp.yukiat.stealplugin.*;
-import org.bukkit.*;
 
 import java.util.*;
 

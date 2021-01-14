@@ -2,7 +2,6 @@ package jp.yukiat.stealplugin;
 
 import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.enums.*;
-import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
@@ -21,8 +20,6 @@ public class ItemFactory
             case LEATHER:
                 switch (type)
                 {
-//                    case HELMET:
-//                        return new ItemStack(Material.LEATHER_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.LEATHER_CHESTPLATE);
                     case LEGGINGS:
@@ -33,8 +30,6 @@ public class ItemFactory
             case GOLD:
                 switch (type)
                 {
-//                    case HELMET:
-//                        return new ItemStack(Material.GOLDEN_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.GOLDEN_CHESTPLATE);
                     case LEGGINGS:
@@ -45,8 +40,6 @@ public class ItemFactory
             case CHAIN:
                 switch (type)
                 {
-//                    case HELMET:
-//                        return new ItemStack(Material.CHAINMAIL_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.CHAINMAIL_CHESTPLATE);
                     case LEGGINGS:
@@ -57,8 +50,6 @@ public class ItemFactory
             case DIAMOND:
                 switch (type)
                 {
-//                    case HELMET:
-//                        return new ItemStack(Material.LEATHER_HELMET);
                     case CHESTPLATE:
                         return new ItemStack(Material.LEATHER_CHESTPLATE);
                     case LEGGINGS:
