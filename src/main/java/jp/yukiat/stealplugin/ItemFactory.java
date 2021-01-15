@@ -128,7 +128,7 @@ public class ItemFactory
         ItemStack baseItem = getBaseItem(type, material);
 
         ItemMeta meta = baseItem.getItemMeta();
-        meta.setDisplayName(ChatColor.GOLD + playerName + ChatColor.AQUA + type.getDisplayName());
+        meta.setDisplayName(ChatColor.GOLD + playerName + ChatColor.AQUA + "の" + type.getDisplayName());
 
         if (material != MaterialType.LEATHER)
         {
