@@ -89,9 +89,9 @@ public class Events implements Listener
                         ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);
 
                         Location location = new Location(target.getWorld(),
-                                (target.getLocation().getX() + thief.getLocation().getX() * 2) / 3,
-                                (target.getLocation().getY() + thief.getLocation().getY() * 2) / 3,
-                                (target.getLocation().getZ() + thief.getLocation().getZ() * 2) / 3);
+                                (target.getLocation().getX() + thief.getLocation().getX() * 2.0) / 3.0,
+                                (target.getLocation().getY() + thief.getLocation().getY() * 2.0) / 3.0,
+                                (target.getLocation().getZ() + thief.getLocation().getZ() * 2.0) / 3.0);
                         world.dropItem(location, item);
 
                         thief.sendMessage(ChatColor.GOLD + target.getName() +
