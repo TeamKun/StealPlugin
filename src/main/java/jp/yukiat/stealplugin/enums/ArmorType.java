@@ -5,7 +5,8 @@ public enum ArmorType
     // HELMET("帽子"),
     BOOTS("靴"),
     CHESTPLATE("上着"),
-    LEGGINGS("パンツ");
+    LEGGINGS("パンツ"),
+    ALL("");
 
     private final String displayName;
 

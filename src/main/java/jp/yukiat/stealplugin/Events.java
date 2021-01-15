@@ -130,18 +130,17 @@ public class Events implements Listener
                 // HEART->シンプルにハート
                 // SPELL_MOB_AMBIENT
                 world.spawnParticle(
-                        Particle.SPELL_MOB_AMBIENT,
+                        Particle.CLOUD,
                         target.getLocation().add(0, 1, 0),
-                        20,
+                        50,
+                        0.1,
                         0.3,
-                        0.3,
-                        0.3,
-                        0
+                        0.1,
+                        0.05
                 );
 
                 // サウンド
-                world.playSound(target.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-
+                world.playSound(target.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
                 // もしスキンが見つからなければ
                 if (skin == null)
                     skin = SkinContainer.getSkinByOrder(0);

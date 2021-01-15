@@ -3,6 +3,7 @@ package jp.yukiat.stealplugin.config;
 import com.google.gson.*;
 import com.google.gson.reflect.*;
 import jp.yukiat.stealplugin.*;
+import jp.yukiat.stealplugin.enums.*;
 
 import java.util.*;
 
@@ -19,9 +20,9 @@ public class Rares
         }.getType());
     }
 
-    public static SpecialCore selectAsSpecial()
+    public static SpecialCore selectAsSpecial(ArmorType type)
     {
-        SpecialCore.Item item = select();
+        SpecialCore.Item item = select(type);
         if (item == null)
             return null;
         SpecialCore core = new SpecialCore();
@@ -30,12 +31,18 @@ public class Rares
         return core;
     }
 
-    public static SpecialCore.Item select()
+    public static SpecialCore.Item select(ArmorType type)
     {
         for (RareItemEntry ent : rares)
         {
             if (ent.chance <= 0)
                 continue;
+            if (ent.item.type == ArmorType.ALL)
+                ent.item.type = type;
+
+            if (ent.item.type != type)
+                continue;
+
             if (new Random().nextInt(Math.toIntExact(ent.chance)) + 1 == 1)
                 return ent.item;
         }
