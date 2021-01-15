@@ -87,7 +87,12 @@ public class Events implements Listener
 
                     for (int i = order; i < len; i++) {
                         ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);
-                        world.dropItem(target.getLocation().add(0, 1, 0), item);
+
+                        Location location = new Location(target.getWorld(),
+                                (target.getLocation().getX() + thief.getLocation().getX()) / 2,
+                                (target.getLocation().getY() + thief.getLocation().getY()) / 2,
+                                (target.getLocation().getZ() + thief.getLocation().getZ()) / 2);
+                        world.dropItem(location, item);
 
                         thief.sendMessage(ChatColor.GOLD + target.getName() +
                                 ChatColor.GREEN + "の" + ArmorType.values()[i].getDisplayName() + "を盗みました！");
