@@ -21,6 +21,11 @@ public class Events implements Listener
     {
         Player thief = e.getPlayer();
 
+        // オフハンドなら返す
+        if (e.getHand().equals(EquipmentSlot.OFF_HAND)) {
+            return;
+        }
+
         //右クリックしたやつがプレイヤーじゃないので除外
         if (!(e.getRightClicked() instanceof Player))
             return;
@@ -84,11 +89,13 @@ public class Events implements Listener
                         ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
                         world.dropItem(target.getLocation().add(0, 1, 0), item);
 
-                        thief.sendMessage(ChatColor.RED + target.getName() + "の" +
-                                ChatColor.GREEN + ArmorType.values()[i].getDisplayName() + "を盗みました！");
-                        target.sendMessage(ChatColor.RED + thief.getName() + "に" +
-                                ChatColor.GREEN + ArmorType.values()[i].getDisplayName() + "を盗まれました！");
+                        thief.sendMessage(ChatColor.GOLD + target.getName() +
+                                ChatColor.GREEN + "の" + ArmorType.values()[i].getDisplayName() + "を盗みました！");
+                        target.sendMessage(ChatColor.GOLD + thief.getName() +
+                                ChatColor.GREEN + "に" + ArmorType.values()[i].getDisplayName() + "を盗まれました！");
                     }
+
+                    PlayerUtil.setMetaData(target, "order", len);
                 }
                 // 一般の女
                 else {
@@ -97,10 +104,12 @@ public class Events implements Listener
                     ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
                     thief.getInventory().setItemInMainHand(item);
 
-                    thief.sendMessage(ChatColor.RED + target.getName() + "の" +
-                            ChatColor.GREEN + ArmorType.values()[order + 1].getDisplayName() + "を盗みました！");
-                    target.sendMessage(ChatColor.RED + thief.getName() + "に" +
-                            ChatColor.GREEN + ArmorType.values()[order + 1].getDisplayName() + "を盗まれました！");
+                    thief.sendMessage(ChatColor.GOLD + target.getName() +
+                            ChatColor.GREEN + "の" + ArmorType.values()[order].getDisplayName() + "を盗みました！");
+                    target.sendMessage(ChatColor.GOLD + thief.getName() +
+                            ChatColor.GREEN + "に" + ArmorType.values()[order].getDisplayName() + "を盗まれました！");
+
+                    PlayerUtil.setMetaData(target, "order", order + 1);
                 }
 
                 // パーティクル
@@ -109,7 +118,7 @@ public class Events implements Listener
                 // HEART->シンプルにハート
                 // SPELL_MOB_AMBIENT
                 world.spawnParticle(
-                        Particle.SPELL_MOB_AMBIENT, // コンジットのやつ
+                        Particle.SPELL_MOB_AMBIENT,
                         target.getLocation().add(0, 1, 0),
                         20,
                         0.3,
@@ -126,7 +135,6 @@ public class Events implements Listener
                 if (skin != null)
                     PlayerUtil.setSkin(target, skin);
 
-                PlayerUtil.setMetaData(target, "order", order + 1);
                 if (!StealPlugin.getPlugin().stealed.contains(target.getUniqueId()))
                     StealPlugin.getPlugin().stealed.add(target.getUniqueId());
 
