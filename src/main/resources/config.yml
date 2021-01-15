@@ -2,15 +2,21 @@
 thief:
   - SaikyouPeyangsan
   - YukiAt
+  # debug 用
+  - dev_01
 
 # 服を盗まれるプレイヤー
 target:
   - SaikyouPeyangsan
   - YukiAt
+  # debug 用
+  - dev_01
 
 # 一発ですべての服が脱げるプレイヤー
 oneshots:
   - YOSHIKO__chan__
+  # debug 用
+  - dev_01
 
 #特別設定
 #選択可能アイテムタイプ: CHESTPLATE, LEGGINGS, BOOTS

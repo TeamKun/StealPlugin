@@ -30,8 +30,10 @@ public class Events implements Listener
             return;
 
         //盗人可能リストにいないので除外
-        if (!StealPlugin.config.getList("thief").contains(thief.getName()))
+        if (!StealPlugin.config.getList("thief").contains(thief.getName())) {
+            thief.sendMessage("盗めないよ！！！");
             return;
+        }
 
         Player target = (Player) e.getRightClicked();
 
@@ -72,36 +74,57 @@ public class Events implements Listener
             public void run()
             {
                 Skin skin;
+                World world = target.getWorld();
 
-                // 一撃で脱げる人は一発で全裸のスキンに変更
-                if (StealPlugin.config.getList("oneshots").contains(target.getName()))
-                {
+                // 一撃で脱げる女
+                if (StealPlugin.config.getList("oneshots").contains(target.getName())) {
                     skin = SkinContainer.getSkinByOrder(len);
-                    for (int i = order; i < len; i++)
-                    {
+
+                    for (int i = order; i < len; i++) {
+                        ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
+                        world.dropItem(target.getLocation().add(0, 1, 0), item);
+
                         thief.sendMessage(ChatColor.RED + target.getName() + "の" +
                                 ChatColor.GREEN + ArmorType.values()[i].getDisplayName() + "を盗みました！");
                         target.sendMessage(ChatColor.RED + thief.getName() + "に" +
                                 ChatColor.GREEN + ArmorType.values()[i].getDisplayName() + "を盗まれました！");
                     }
                 }
-                else
-                {
+                // 一般の女
+                else {
                     skin = SkinContainer.getSkinByOrder(order + 1);
+
+                    ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
+                    thief.getInventory().setItemInMainHand(item);
+
                     thief.sendMessage(ChatColor.RED + target.getName() + "の" +
                             ChatColor.GREEN + ArmorType.values()[order + 1].getDisplayName() + "を盗みました！");
                     target.sendMessage(ChatColor.RED + thief.getName() + "に" +
                             ChatColor.GREEN + ArmorType.values()[order + 1].getDisplayName() + "を盗まれました！");
                 }
 
+                // パーティクル
+                // 候補：
+                // NAUTILUS->コンジットのやつ
+                // HEART->シンプルにハート
+                // SPELL_MOB_AMBIENT
+                world.spawnParticle(
+                        Particle.SPELL_MOB_AMBIENT, // コンジットのやつ
+                        target.getLocation().add(0, 1, 0),
+                        20,
+                        0.3,
+                        0.3,
+                        0.3,
+                        0);
+
+                // サウンド
+                world.playSound(target.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+
                 // もしスキンが見つからなければ
                 if (skin == null)
                     skin = SkinContainer.getSkinByOrder(0);
                 if (skin != null)
                     PlayerUtil.setSkin(target, skin);
-
-                ItemStack st = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
-                thief.getInventory().setItemInMainHand(st);
 
                 PlayerUtil.setMetaData(target, "order", order + 1);
                 if (!StealPlugin.getPlugin().stealed.contains(target.getUniqueId()))

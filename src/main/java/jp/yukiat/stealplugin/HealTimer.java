@@ -33,13 +33,13 @@ public class HealTimer extends BukkitRunnable
                 return;
             }
 
-            long l = stealed.get().asLong();
+            int order = stealed.get().asInt();
 
-            l--;
+            order--;
 
-            if (l >= 0)
+            if (order >= 0)
             {
-                Skin data = SkinContainer.getSkinByOrder(Math.toIntExact(l));
+                Skin data = SkinContainer.getSkinByOrder(order);
                 if (data != null)
                     PlayerUtil.setSkin(player, data);
                 else
@@ -51,9 +51,8 @@ public class HealTimer extends BukkitRunnable
                         0.3,
                         0.3,
                         0.3,
-                        0
-                );
-                PlayerUtil.setMetaData(player, "order", Math.toIntExact(l));
+                        0);
+                PlayerUtil.setMetaData(player, "order", order);
                 return;
             }
 
