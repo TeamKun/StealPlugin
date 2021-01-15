@@ -86,7 +86,7 @@ public class Events implements Listener
                     skin = SkinContainer.getSkinByOrder(len);
 
                     for (int i = order; i < len; i++) {
-                        ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
+                        ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);
                         world.dropItem(target.getLocation().add(0, 1, 0), item);
 
                         thief.sendMessage(ChatColor.GOLD + target.getName() +
