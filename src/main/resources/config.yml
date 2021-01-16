@@ -1,38 +1,20 @@
 # 服を盗めるプレイヤー
 thief:
-  - hahihato
-  - Kamesuta
-  - roadhog_kun
-  - YukiAt
-  - SaikyouPeyangsan
+  - dev1
+  - dev2
+  - dev3
 
 # 服を盗まれるプレイヤー
 target:
-  - rosec_pin
-  - urn1o
-  - YOSHIKO__chan__
-  - 23zi_51hun
-  - suzuki2929
-  - kikaru0014
-  - dbk_huuka
-  - kakikama
-  - ikeko_99
-  - kono_a
-  - _hinana_
-  - tabi_meido
-  - Arimamiko
-  - gin499
-  - norunoru315
-  - Kamesuta
-  - Tomas_kun
-  - Bro_Kuribo
-  - kein_kandy
+  - torareru1
+  - torareru2
+  - torareru3
 
 # 一発ですべての服が脱げるプレイヤー
 oneshots:
-  - YOSHIKO__chan__
-  - norunoru315
-  - Kamesuta
+  - ippatu1
+  - ippatu2
+  - ippatu3
 
 #特別設定
 #選択可能アイテムタイプ: CHESTPLATE, LEGGINGS, BOOTS
@@ -44,20 +26,20 @@ oneshots:
 #    - %%armor_type%% = 服の種類
 #    - %%material%%   = 服の素材
 specials:
-  - name: rosec_pin
-    itemName: "§6旬の過ぎた女のださい§b%%armor_type%%"
-  - name: urn1o
+  - name: torareru1
+    itemName: "§6つよそうな§b%%armor_type%%"
+  - name: torareru2
     items:
       - type: CHESTPLATE
-        name: "うるんる～の§bかわいいふく！"
+        name: "とられる2の§bかわいいふく！"
       - type: CHESTPLATE
-        name: "うるんる～の§bかわいいぱんつ！"
+        name: "とられる2の§bかわいいぱんつ！"
       - type: BOOTS
-        name: "うるんる～の§bかわいいくつ！"
-  - name: YOSHIKO__chan__
+        name: "とられる2の§bかわいいくつ！"
+  - name: torarery3
     items:
       - type: LEGGINGS
-        name: "§6%%name%%§bの膝のあたりが§2臭い§b%%armor_type%%"
+        name: "§6%%name%%の§b%%armor_type%%"
         effect:
           particle: SPELL_MOB_AMBIENT
           count: 10
@@ -65,35 +47,6 @@ specials:
           offsetY: 0.3
           offsetZ: 0.1
           extra: 0.1
-
-#  - name: 23zi_51hun
-#  - name: suzuki2929
-#  - name: kikaru0014
-#  - name: dbk_huuka
-#  - name: kakikama
-  - name: ikeko_99
-    itemName: "§6%%name%%§0のエロい§b%%armor_type%%"
-#  - name: kono_a
-#  - name: _hinana_
-#  - name: tabi_meido
-#  - name: Arimamiko
-  - name: gin499
-    material: CHAIN
-#  - name: norunoru315
-#  - name: Kamesuta
-  - name: Tomas_kun
-    itmes:
-      - type: CHESTPLATE
-        material: CHAIN
-        name: "§7%%name%%§8の吊り鎖の服"
-  - name: Bro_Kuribo
-    items:
-      - color: "#FFFFFF"
-        name: "§6%%name%%の§bサマナ服"
-  - name: kein_kandy
-    items:
-      - color: "#283042"
-        name: "§6%%name%%の§8あるまぁにの服"
 
 
 #レアなアイテム
@@ -106,27 +59,10 @@ rares:
       color: "#282f5b"
   - chance: 100
     item:
-      name: "2年2組 涼風萌音(水着)"
+      name: "2年2組 ぺやんぐ(水着)"
       material: LEATHER
       type: CHESTPLATE
       color: "#282f5b"
-  - chance: 50
-    item:
-      name: "§d使い古された%%name%%のクルタ"
-      material: LEATHER
-      type: ALL
-      color: "#ba4ad4"
-  - chance: 1000
-    item:
-      name: "§9§k_§1§k_§c§k_§r§aKUNのパンツ§9§k_§1§k_§c§k_"
-      material: LEATHER
-      type: LEGGINGS
-      color: "#000000"
-  - chance: 100
-    item:
-      name: "2年2組 涼風萌音(体操服)"
-      material: IRON
-      type: CHESTPLATE
 
 # 服が回復するまでの時間(秒)
 heal: 60
