@@ -47,12 +47,13 @@ specials:
   - name: rosec_pin
     itemName: "§6旬の過ぎた女のださい§b%%armor_type%%"
   - name: urn1o
-    - type: CHESTPLATE
-      name: "うるんる～の§bかわいいふく！"
-    - type: CHESTPLATE
-      name: "うるんる～の§bかわいいぱんつ！"
-    - type: BOOTS
-      name: "うるんる～の§bかわいいくつ！"
+    items:
+      - type: CHESTPLATE
+        name: "うるんる～の§bかわいいふく！"
+      - type: CHESTPLATE
+        name: "うるんる～の§bかわいいぱんつ！"
+      - type: BOOTS
+        name: "うるんる～の§bかわいいくつ！"
   - name: YOSHIKO__chan__
     items:
       - type: LEGGINGS
