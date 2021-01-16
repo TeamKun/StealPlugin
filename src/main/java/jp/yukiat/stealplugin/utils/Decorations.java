@@ -91,7 +91,7 @@ public class Decorations
      */
     public static void particle(Location location)
     {
-        particle(location, 2);
+        particle(location, 5);
     }
 
     /**
@@ -113,7 +113,7 @@ public class Decorations
         {
             vP.add(line);
             particle(vP.toLocation(path.getWorld()), 1, Particle.ENCHANTMENT_TABLE);
-            d += 0.3;
+            d += 0.2;
         }
     }
 
@@ -158,9 +158,8 @@ public class Decorations
 
     /**
      * 線引く
-     *
-     * @param from    さいしょ
-     * @param to      さいご
+     * @param from さいしょ
+     * @param to さいご
      * @param seconds びょーすー
      */
     public static void secLinesPlayer(Player from, Player to, int seconds)
