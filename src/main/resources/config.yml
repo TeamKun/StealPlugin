@@ -18,6 +18,13 @@ oneshots:
   - ippatu2
   - ippatu3
 
+# リモート対応
+remote:
+  # - "*"
+  - remote1
+  - remote2
+  - remote3
+
 #特別設定
 #選択可能アイテムタイプ: CHESTPLATE, LEGGINGS, BOOTS
 #選択可能アイテム素材: LEATHER, GOLD, CHAIN, DIAMOND

@@ -1,6 +1,6 @@
 package jp.yukiat.stealplugin.config;
 
-import org.bukkit.*;
+import org.bukkit.Particle;
 
 public class EffectCore
 {

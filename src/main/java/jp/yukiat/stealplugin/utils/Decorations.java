@@ -1,11 +1,12 @@
 package jp.yukiat.stealplugin.utils;
 
-import develop.p2p.lib.*;
-import jp.yukiat.stealplugin.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.scheduler.*;
-import org.bukkit.util.*;
+import develop.p2p.lib.WaveCreator;
+import jp.yukiat.stealplugin.StealPlugin;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 /**
  * でこれーしょん☆！
@@ -91,7 +92,7 @@ public class Decorations
      */
     public static void particle(Location location)
     {
-        particle(location, 2);
+        particle(location, 5);
     }
 
     /**
@@ -113,7 +114,7 @@ public class Decorations
         {
             vP.add(line);
             particle(vP.toLocation(path.getWorld()), 1, Particle.ENCHANTMENT_TABLE);
-            d += 0.3;
+            d += 0.2;
         }
     }
 
@@ -127,9 +128,9 @@ public class Decorations
     {
         Location n = new Location(
                 center.getWorld(),
-                particle_x(count, radius) + center.getX(),
+                particleX(count, radius) + center.getX(),
                 center.getY(),
-                particle_z(count, radius) + center.getZ()
+                particleZ(count, radius) + center.getZ()
         );
 
         particle(n);
@@ -147,9 +148,9 @@ public class Decorations
     {
         Location n = new Location(
                 center.getWorld(),
-                particle_x(count, radius) + center.getX(),
+                particleX(count, radius) + center.getX(),
                 center.getY(),
-                particle_z(count, radius) + center.getZ()
+                particleZ(count, radius) + center.getZ()
         );
 
         particle(n, 5, particle);
@@ -259,7 +260,7 @@ public class Decorations
      * @param radius 半径。
      * @return 位置。
      */
-    private static double particle_z(double time, double radius)
+    private static double particleZ(double time, double radius)
     {
         return Math.sin(time) * radius * Math.cos(Math.PI / 180 * 360.0);
     }
@@ -271,7 +272,7 @@ public class Decorations
      * @param radius 半径。
      * @return 位置。
      */
-    private static double particle_x(double time, double radius)
+    private static double particleX(double time, double radius)
     {
         return Math.cos(time) * radius;
     }

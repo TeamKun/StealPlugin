@@ -1,17 +1,23 @@
 package jp.yukiat.stealplugin.utils;
 
-import com.google.common.util.concurrent.*;
-import com.google.gson.*;
-import net.minecraft.server.v1_15_R1.*;
+import com.google.common.util.concurrent.AtomicDouble;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.minecraft.server.v1_15_R1.NBTBase;
+import net.minecraft.server.v1_15_R1.NBTTagCompound;
+import net.minecraft.server.v1_15_R1.NBTTagList;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.objects.*;
-import org.bukkit.craftbukkit.v1_15_R1.inventory.*;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import org.bukkit.craftbukkit.v1_15_R1.inventory.CraftItemStack;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.*;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 public class ItemUtil
 {

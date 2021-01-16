@@ -1,8 +1,9 @@
 package jp.yukiat.stealplugin.config;
 
-import jp.yukiat.stealplugin.enums.*;
+import jp.yukiat.stealplugin.enums.ArmorType;
+import jp.yukiat.stealplugin.enums.MaterialType;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class SpecialCore
 {

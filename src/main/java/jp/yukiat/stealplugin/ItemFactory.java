@@ -1,15 +1,22 @@
 package jp.yukiat.stealplugin;
 
-import jp.yukiat.stealplugin.config.*;
-import jp.yukiat.stealplugin.enums.*;
-import jp.yukiat.stealplugin.utils.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.*;
+import jp.yukiat.stealplugin.config.EffectCore;
+import jp.yukiat.stealplugin.config.Rares;
+import jp.yukiat.stealplugin.config.SpecialConfig;
+import jp.yukiat.stealplugin.config.SpecialCore;
+import jp.yukiat.stealplugin.enums.ArmorType;
+import jp.yukiat.stealplugin.enums.MaterialType;
+import jp.yukiat.stealplugin.utils.ItemUtil;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.*;
-import java.util.concurrent.atomic.*;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ItemFactory
 {

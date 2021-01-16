@@ -1,18 +1,37 @@
 package jp.yukiat.stealplugin;
 
-import jp.yukiat.stealplugin.config.*;
-import jp.yukiat.stealplugin.enums.*;
-import jp.yukiat.stealplugin.utils.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.event.*;
-import org.bukkit.event.block.*;
-import org.bukkit.event.player.*;
-import org.bukkit.inventory.*;
-import org.bukkit.metadata.*;
-import org.bukkit.scheduler.*;
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
+import jp.yukiat.stealplugin.config.Skin;
+import jp.yukiat.stealplugin.config.SkinContainer;
+import jp.yukiat.stealplugin.enums.ArmorType;
+import jp.yukiat.stealplugin.enums.MaterialType;
+import jp.yukiat.stealplugin.timers.HealTimer;
+import jp.yukiat.stealplugin.utils.Decorations;
+import jp.yukiat.stealplugin.utils.PlayerUtil;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Events implements Listener
 {
@@ -62,6 +81,17 @@ public class Events implements Listener
 
         Player thief = e.getPlayer();
         Player target = PlayerUtil.getLookingEntity(thief);
+
+        if (StealPlugin.config.getList("remote").contains("*"))
+        {
+            if (StealPlugin.config.getList("remote").contains(thief.getName()))
+                return;
+        }
+        else
+        {
+            if (!StealPlugin.config.getList("remote").contains(thief.getName()))
+                return;
+        }
 
         // そもそもターゲットがいない場合ははじく
         if (target == null)
@@ -230,6 +260,10 @@ public class Events implements Listener
                     {
                         ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);
 
+                        //ItemStack[] aa = target.getInventory().getArmorContents();
+                        //aa[order] = new ItemStack(Material.AIR);
+
+                        //target.getInventory().setArmorContents(aa);
                         Location location = new Location(
                                 target.getWorld(),
                                 (target.getLocation().getX() + thief.getLocation().getX() * 2.0) / 3.0,
@@ -261,6 +295,11 @@ public class Events implements Listener
                 else
                 {
                     skin = SkinContainer.getSkinByOrder(order + 1);
+
+                    //ItemStack[] aa = target.getInventory().getArmorContents();
+                    //aa[order] = new ItemStack(Material.AIR);
+
+                    //target.getInventory().setArmorContents(aa);
 
                     ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
                     thief.getInventory().setItemInMainHand(item);
@@ -315,4 +354,36 @@ public class Events implements Listener
         return true;
     }
 
+
+    @EventHandler
+    public void onEquipment(PlayerArmorChangeEvent event)
+    {
+        try
+        {
+            if (event.getSlotType() == PlayerArmorChangeEvent.SlotType.HEAD || Objects.requireNonNull(event.getOldItem()).getType() != Material.AIR ||
+                    Objects.requireNonNull(event.getNewItem()).getType() == Material.AIR)
+                return;
+
+            Optional<MetadataValue> stealed = PlayerUtil.getMetaData(event.getPlayer(), "order");
+
+            if (!stealed.isPresent())
+                return;
+
+            int order = stealed.get().asInt();
+
+            if (order <= 0)
+                return;
+
+            HealTimer.heal(event.getPlayer().getUniqueId());
+
+
+            ArrayList<ItemStack> aa = new ArrayList<>(Arrays.asList(event.getPlayer().getInventory().getArmorContents()));
+            aa.remove(event.getNewItem());
+            aa.add(0, new ItemStack(Material.AIR));
+            event.getPlayer().getInventory().setArmorContents(aa.toArray(new ItemStack[0]));
+
+        }
+        catch (Exception e) {}
+
+    }
 }

@@ -1,12 +1,12 @@
 package jp.yukiat.stealplugin.config;
 
-import com.google.gson.*;
-import com.google.gson.reflect.*;
-import jp.yukiat.stealplugin.*;
-import org.bukkit.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import jp.yukiat.stealplugin.StealPlugin;
+import org.bukkit.Bukkit;
 
-import java.util.*;
-import java.util.concurrent.atomic.*;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class SpecialConfig
 {

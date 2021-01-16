@@ -1,26 +1,37 @@
 package jp.yukiat.stealplugin.utils;
 
-import com.fasterxml.jackson.databind.*;
-import com.mojang.authlib.*;
-import com.mojang.authlib.properties.*;
-import jp.yukiat.stealplugin.*;
-import jp.yukiat.stealplugin.config.*;
-import org.bukkit.*;
-import org.bukkit.block.*;
-import org.bukkit.craftbukkit.v1_15_R1.entity.*;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.*;
-import org.bukkit.inventory.meta.*;
-import org.bukkit.metadata.*;
-import org.bukkit.scheduler.*;
-import org.bukkit.util.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import jp.yukiat.stealplugin.StealPlugin;
+import jp.yukiat.stealplugin.config.Skin;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BlockIterator;
 
-import java.io.*;
-import java.lang.reflect.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.atomic.*;
-import java.util.stream.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 public class PlayerUtil
 {
