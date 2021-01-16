@@ -8,7 +8,13 @@ import jp.yukiat.stealplugin.enums.MaterialType;
 import jp.yukiat.stealplugin.timers.HealTimer;
 import jp.yukiat.stealplugin.utils.Decorations;
 import jp.yukiat.stealplugin.utils.PlayerUtil;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,7 +28,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Events implements Listener {
     private final double maxDistance = 50;
