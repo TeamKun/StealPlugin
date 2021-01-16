@@ -1,5 +1,7 @@
 # 服を盗めるプレイヤー
+#を記述した場合、ここに記載されているプレイヤーはこのプラグインを使用できなくなります。
 thief:
+  # - "*"
   - dev1
   - dev2
   - dev3
@@ -27,13 +29,17 @@ oneshots:
 #    - %%material%%   = 服の素材
 specials:
   - name: torareru1
-    itemName: "§6つよそうな§b%%armor_type%%"
+    itemName: "§6つよそうな§b%%armor_type%%" #アイテムの名前を一括指定！
+    color: "#000000" #色,16進数
+
   - name: torareru2
     items:
       - type: CHESTPLATE
         name: "とられる2の§bかわいいふく！"
+        color: "#111111"
       - type: CHESTPLATE
         name: "とられる2の§bかわいいぱんつ！"
+        color: "#222222"
       - type: BOOTS
         name: "とられる2の§bかわいいくつ！"
   - name: torarery3
@@ -57,12 +63,6 @@ rares:
       material: LEATHER
       type: CHESTPLATE
       color: "#282f5b"
-  - chance: 100
-    item:
-      name: "2年2組 ぺやんぐ(水着)"
-      material: LEATHER
-      type: CHESTPLATE
-      color: "#282f5b"
 
 # 服が回復するまでの時間(秒)
 heal: 60
@@ -73,7 +73,16 @@ effect: 10
 # orderの最大値は３で、０：全身服を着たスキン、１：くつだけを脱いだスキン、２：くつと上着だけ脱いだスキン、３：全裸のスキン
 # 上のheal時間ごとに-1されたorderのスキンに変わり、最終的に０のスキンとなります。
 skins:
-  # かきかた
-  #- order: 0
-  #  value: <テクスチャ>
-  #  signature: <シグネチャ>
+  # debug用スキン
+  - order: 0
+    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDE5MTgyMCwKICAicHJvZmlsZUlkIiA6ICI1OGMwMWYzMTQ2ODU0NjBiODllZmZmOGI2NTMxMTQ0OCIsCiAgInByb2ZpbGVOYW1lIiA6ICJSb3RyaV9TdHVkaW9ZVCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iZmUwYzI3ZWY4YzczZmE3OWI3MDVlN2E4MDI1M2Y5MTM2OGRmMzBkOTMxZjU3OTllOTdjNGI0ZWVkMmE4MTUzIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
+    signature: "TT1nDac5Ctbfy04aHSkqOn7U1pw3ydhe+fjUFhRY7lmDW1PzrJJEg2aVc3fGCXTFfovyYMG+f4qk485a+5PfPvfidcjXhiMgCx+So/8VkyKL5cNdVlWAbi0OPHDV81bl/DrbzjHFjm08+MNpafAvPmI0TL6wWX5Gml5ZJNX+bUjlFvzaTdHE9g+7ogmLIlrAZ0LlvYdhM5wa3AtPM2ZPKTxvdLORMvlHYAm8IDTEWH9sGI/YB6PvkNmqpZPpT817cbSKkvQDa1n0j8Msg0jLajK//A2ni8zf0uAGGIjQ3tFeAvlcIbyuFkdXO5VaFOJh7cCqiL2kgotiKRHU8c51dsYF/D0OE12dHcDXJoOr+C8m4bS7owyTkyOpuUtL9g3N2Bpt9hbXGBmusq5BeDJpZ2ZKyvB4tZ5D4l2AypEa+ufKxHuBmTzAUQvBq2+Aku5hyB589N1tbuiYsBy2Ed4vNNEdHxUIyasm1GbvAm6aT95m0UUD+4Au1HhKY6NUdrxoWpprNSEJlvuYtN5zyYS2Z5wU1LOPZo/OpgyWidDC0y+Lr9k0dSl4Uwv8O1xYz0rnUK7O5WZ2LX2y4OP7adYzEQWShj0gYKPg+w9NCG/qiOHrDFghYdjLYHRdr9d0tvd0ECtiQDKU6Ffwy+m5ImPOJ3NpnwlU4bWJsIa+JqFXFMg="
+  - order: 1
+    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDM4OTA2NCwKICAicHJvZmlsZUlkIiA6ICIzOWEzOTMzZWE4MjU0OGU3ODQwNzQ1YzBjNGY3MjU2ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJkZW1pbmVjcmFmdGVybG9sIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2EzYzdhOTgzNmE4YzBmZDU1MmU0NjBlZGVjMzNmMDAwZmU5MmNjN2RkYTQ3NmNkODBlMGU2MDJkMzBlNzM2NDUiCiAgICB9CiAgfQp9"
+    signature: "wkincz0JVZxOW/D0DGTztH4Caw91WLOz/ug5l5jhKkcP1B4OociaHBtiRXSM1ue3JB58HYFuh+5tSUddVfAt+Jo1o663MEKuWM3SrFGBg0snwErPgZoTS+Y5TtryPe01Dopwa5BGJIBbe+gKXM3/NyBETg9+iNelyuFa7Qhgs2+eNDvtUljOarnH20BVn7ZpRyS0yL1ZRFZMfAaCzWtpWVELAxqgt3hBfx2ZJFUM3IAvTz7mlhKKSosDuejrwnw6zeLUUFhBZfKTB90bjC7HUDBi/LtMmBvDfLZ0YizqXE+xEz1nqFfBCxQkXetb1TTdQe/AffNR45nxcCGdgkyHLC1fQrJQxnGwcng5LeHW2NehnnU8w5eQcH4gEvc/6kt146SoZbWi6iiIj7YGrTCBkbp8Q3gg1pV2IqdtnZEqNZK31Cei0/R0gN3uY/yaEoIZpXQlaOKcsVYeZbVfSdDp3pjm67fAZuQu9yU7H+5gOaYC47s7U21mNEwV+KZOLqJhnZi2j6GmRFAeRyznd3pcYIfOIJqVdNzyZpzQwUNgYaWCZB4XfjxqaWMmSMLshaeZ3qIK5wv6h/AzwreyxxAHMyZ2Z9xpfaK4uvxwHtzDmPoD0dAIsnAg+7Q5PFHA2B0AZ6XVr5Vw1OnH88283A+GrkEbjW/0CxRW6zNWdxgpdbk="
+  - order: 2
+    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDQ1NzQ3NiwKICAicHJvZmlsZUlkIiA6ICI5ZDQyNWFiOGFmZjg0MGU1OWM3NzUzZjc5Mjg5YjMyZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUb21wa2luNDIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdiZjNiOWNjNTVjODFkYmZkODgyMjZiODgxYTI4Nzg5ZGFjZTk2YmU1NTc4NzZmZTJjNzFhYzdiYjE2NGQ1MyIKICAgIH0KICB9Cn0="
+    signature: "tQWdj7fHZD175DGh2XUm3yyhZHeBr126PtGnWWsNM2w8SoiaKtX45K9TxiU2zacDJS4hEWei7hYD97OYRCezSaJKbhb8Q4h1gLApyjgd+mr6LnJOjI8PCXF9qaBgyhG4i8EeZLsYzyvn878L9Nl8QL5QxFxGATblaWegVPMf71DP1xl+c17i2N+PSYbpjR3E0R/AdHPonwAXCqUa++piIf942NSLqc3C77Ui1NZyBtgRlnqJ5KD/E8c2z4KxIkSJ5aBk7mwy6NgZq6E5KgWbTon5TBks0fSQLqYlZFL97q8SFDdeGZBOdhRr9Zn5kNCRourrlGT0mfYKw+W9DYHQvIqCrCcMqwvLapA9Z4nXWLXRHSwIC9M3EvCmKuRR1zlGpWz08TpUcybOOsFRXE3iHFBBBOJt28btNPZ3uNPfJBMLgnQgO1sCBh7ordporHIMqlRiWJ9GNweuKn59H1kKzjCaWEF/+w9JYPsHvotgC9shb5QLVE+tQta/bPZcaMu7vCskrmDxWCS7nlIde8jcS9+BTYQC5GuBJGgj9OnFlS+J5/+5MwZFmsmujFM6lgzAlku0CvIwALASelqIqFekTYhoJwrkqBEdjj+22OaJE6mCpz/pd6pVDmMsAQDbb3ihf5mkNQ9gykxUon3oMf91rTefJfzaEGlN0sTHVklxFF0="
+  - order: 3
+    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDU0MDY2MSwKICAicHJvZmlsZUlkIiA6ICIxNzhmMTJkYWMzNTQ0ZjRhYjExNzkyZDc1MDkzY2JmYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJzaWxlbnRkZXRydWN0aW9uIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzgwMDQ0MmJiMzBjOWZiZDMyMjhmNzBlNTNmNzI2ODAxZmY3ZjAxOWRjZjMzOWNhYjNkNmMzMGJhMWM4MTQ3ZDAiCiAgICB9CiAgfQp9"
+    signature: "P8CFKon5n7Gt4zoH0xk5wz31/9d2EFnWnuYPqw5XcfvGPH/a5l2nKD5C/YCj0GSNcs/2bjS/cKy4856x9MVq/h6Y+RiWqCbe+mGiKT/zfDskHa3/HQBb4+sqC9pl9wwJmwC2cHn7ohT0T+ibJUY8jlsV3fOQExUgIDLtzVCn05ztwKi8bZMJl+oWiiuV4QRJNqUZGVCxw9djTl1g/A2Ba2ZH3OnMTD/5Ej+FhhBt2VsW0RTogBbRqOMYRs1RxnPI+g9ncDSFjL7DgN/Hui+F0sGrguppRgPyovM6uqT6FPoxd3nso/DqkI2emckb8J8vjN6b0dK0/IF8dHJ+fDEyo4HJvGiX6WENrunsOgLFAav/gOcZVehQuuGlchavIy9m7CUz1V3GwPqyYKRnPxhWf70cICQUin8C8he54HwDSiuKwrs8YPHX9RUJWdNmzasSOOjhmKLots29ylAea7ddxREQoMaIbTBx+jEjya9TpeTC6xibkH3qILDDPOdJJEGkkIfXreKSx/+SfwrCEp8cbm5MrfStOsyh+GFKfhWEUZyo4NxSma0A4i9m4roZdeFUWbBbQ3+DYjCE7xdHrV//TdBxcjaXT4cjTHdKzmLTnZEH/h3v8RexY9vq3SP4qYxMcZ2N6UrgOBhKg4Ga88SuOn8wYap7MVo0Dx5nNN/kCsk="
