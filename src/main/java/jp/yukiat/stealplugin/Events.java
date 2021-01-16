@@ -6,6 +6,7 @@ import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.*;
 import org.bukkit.metadata.*;
@@ -15,32 +16,114 @@ import java.util.*;
 
 public class Events implements Listener
 {
+    private final double maxDistance = 50;
+
     @EventHandler(ignoreCancelled = true)
-    @SuppressWarnings("ConstantConditions")
     public void onClickEvent(PlayerInteractEntityEvent e)
     {
         Player thief = e.getPlayer();
 
         // オフハンドなら返す
         if (e.getHand().equals(EquipmentSlot.OFF_HAND))
-        {
             return;
-        }
 
         //右クリックしたやつがプレイヤーじゃないので除外
         if (!(e.getRightClicked() instanceof Player))
             return;
 
-        //スニークしてないので除外
-        if (!thief.isSneaking())
+        Player target = (Player) e.getRightClicked();
+
+        if (steal(thief, target))
+            StealPlugin.getPlugin().stealing.remove(thief.getUniqueId());
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onJoin(PlayerJoinEvent e)
+    {
+        if (StealPlugin.config.getStringList("target").contains(e.getPlayer().getName()))
+        {
+            setOwnSkull(e.getPlayer());
+
+            Skin defaultSkin = SkinContainer.getSkinByOrder(0);
+            if (defaultSkin == null)
+                return;
+            PlayerUtil.setSkin(e.getPlayer(), defaultSkin);
+            PlayerUtil.setMetaData(e.getPlayer(), "order", 0);
+        }
+    }
+
+    @EventHandler
+    public void onRightClick(PlayerInteractEvent e)
+    {
+        Bukkit.getLogger().info(e.getAction() + ": " + e.getPlayer());
+        // 右クリックじゃなかったらはじく
+        if (!e.getAction().equals(Action.LEFT_CLICK_AIR))
             return;
 
+        Player thief = e.getPlayer();
+        Player target = PlayerUtil.getLookingEntity(thief);
+
+        // そもそもターゲットがいない場合ははじく
+        if (target == null)
+            return;
+
+        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
+        {
+            thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
+            return;
+        }
+
+        double distance = thief.getLocation().distance(target.getLocation());
+
+        // 距離が近すぎる or 遠すぎる場合ははじく
+        if (distance > maxDistance || distance < 3.25)
+            return;
+
+        if (!canSteal(thief, target))
+            return;
+
+        Decorations.magic(target, 60);
+        Decorations.secLinesPlayer(thief, target, 60);
+
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                if (steal(thief, target))
+                    StealPlugin.getPlugin().stealing.remove(thief.getUniqueId());
+            }
+        }.runTaskLater(StealPlugin.getPlugin(), 60);
+
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent e)
+    {
+        StealPlugin.getPlugin().stealed.remove(e.getPlayer().getUniqueId());
+        PlayerUtil.removeMetaData(e.getPlayer(), "order");
+    }
+
+    private void setOwnSkull(Player player)
+    {
+        new BukkitRunnable()
+        {
+            @Override
+            public void run()
+            {
+                player.getInventory().setHelmet(PlayerUtil.getSkullStack(PlayerUtil.getSkin(player.getUniqueId())));
+            }
+        }.runTaskAsynchronously(StealPlugin.getPlugin());
+    }
+
+    private boolean canSteal(Player thief, Player target)
+    {
         if (StealPlugin.config.getList("thief").contains("*"))
         { //ブラックリストになる
             if (StealPlugin.config.getList("thief").contains(thief.getName()))
             {
                 thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
-                return;
+                return false;
             }
         }
         else
@@ -48,21 +131,44 @@ public class Events implements Listener
             if (!StealPlugin.config.getList("thief").contains(thief.getName()))
             {
                 thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
-                return;
+                return false;
             }
         }
 
-        Player target = (Player) e.getRightClicked();
+        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
+        {
+            thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
+            return false;
+        }
 
-        //ターゲット可能リストにいないので除外
-        if (!StealPlugin.config.getList("target").contains(target.getName()))
-            return;
+        if (StealPlugin.config.getList("target").contains("*"))
+        {
+            if (StealPlugin.config.getList("target").contains(thief.getName()))
+            {
+                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+                return false;
+            }
+        }
+        else
+        {
+            if (!StealPlugin.config.getList("target").contains(thief.getName()))
+            {
+                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+                return false;
+            }
+        }
 
-        // 素手もしくはハサミを持っていなければ除外
+        // 素手じゃなければ除外
         if (thief.getInventory().getItemInMainHand().getType() != Material.AIR)
         {
             thief.sendMessage(ChatColor.RED + "素手じゃないと服を盗めないよ！");
-            return;
+            return false;
+        }
+
+        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
+        {
+            thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
+            return false;
         }
 
         int temp = 0;
@@ -80,8 +186,31 @@ public class Events implements Listener
         if (order >= len)
         {
             thief.sendMessage(ChatColor.RED + "もうはだかだよ！！！");
-            return;
+            return false;
         }
+
+        return true;
+    }
+
+    private boolean steal(Player thief, Player target)
+    {
+        if (!canSteal(thief, target))
+            return false;
+
+        int temp = 0;
+
+        if (PlayerUtil.hasMetaData(target, "order"))
+        {
+            Optional<MetadataValue> mbs = PlayerUtil.getMetaData(target, "order");
+            if (mbs.isPresent())
+                temp = mbs.get().asInt();
+        }
+        final int order = temp;
+
+        int len = ArmorType.values().length - 1; // 3
+
+        StealPlugin.getPlugin().stealing.add(thief.getUniqueId());
+
 
         setOwnSkull(target);
 
@@ -115,6 +244,17 @@ public class Events implements Listener
                                 ChatColor.GREEN + "に" + ArmorType.values()[i].getDisplayName() + "を盗まれました！");
                     }
 
+                    Bukkit.getOnlinePlayers().stream()
+                            .filter(player -> !(player.getName().equals(target.getName()) || target.getName().equals(thief.getName())))
+                            .forEach(
+                                    player -> {
+                                        player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" +
+                                                ChatColor.GOLD + target.getName() + ChatColor.GREEN + "を" +
+                                                ChatColor.RED + ChatColor.BOLD + "全裸" +
+                                                ChatColor.RESET + ChatColor.GREEN + "にしました！");
+                                    }
+                            );
+
                     PlayerUtil.setMetaData(target, "order", len);
                 }
                 // 一般の女
@@ -125,6 +265,16 @@ public class Events implements Listener
                     ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
                     thief.getInventory().setItemInMainHand(item);
 
+                    Bukkit.getOnlinePlayers().stream()
+                            .filter(player -> !(player.getName().equals(target.getName()) || target.getName().equals(thief.getName())))
+                            .forEach(
+                                    player -> {
+                                        player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" +
+                                                ChatColor.GOLD + target.getName() + ChatColor.GREEN + "の" +
+                                                ChatColor.GOLD + ArmorType.values()[order].getDisplayName() +
+                                                ChatColor.GREEN + "を盗みました！");
+                                    }
+                            );
                     thief.sendMessage(ChatColor.GOLD + target.getName() +
                             ChatColor.GREEN + "の" + ArmorType.values()[order].getDisplayName() + "を盗みました！");
                     target.sendMessage(ChatColor.GOLD + thief.getName() +
@@ -161,40 +311,8 @@ public class Events implements Listener
 
             }
         }.runTaskLater(StealPlugin.getPlugin(), 2); //スキン取得のラグを考慮
-    }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onJoin(PlayerJoinEvent e)
-    {
-        if (StealPlugin.config.getStringList("target").contains(e.getPlayer().getName()))
-        {
-            setOwnSkull(e.getPlayer());
-
-            Skin defaultSkin = SkinContainer.getSkinByOrder(0);
-            if (defaultSkin == null)
-                return;
-            PlayerUtil.setSkin(e.getPlayer(), defaultSkin);
-            PlayerUtil.setMetaData(e.getPlayer(), "order", 0);
-        }
-    }
-
-    @EventHandler
-    public void onLeave(PlayerQuitEvent e)
-    {
-        StealPlugin.getPlugin().stealed.remove(e.getPlayer().getUniqueId());
-        PlayerUtil.removeMetaData(e.getPlayer(), "order");
-    }
-
-    private void setOwnSkull(Player player)
-    {
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
-            {
-                player.getInventory().setHelmet(PlayerUtil.getSkullStack(PlayerUtil.getSkin(player.getUniqueId())));
-            }
-        }.runTaskAsynchronously(StealPlugin.getPlugin());
+        return true;
     }
 
 }
