@@ -31,10 +31,6 @@ public class Events implements Listener
         if (!(e.getRightClicked() instanceof Player))
             return;
 
-        //スニークしてないので除外
-        if (!thief.isSneaking())
-            return;
-
         if (StealPlugin.config.getList("thief").contains("*"))
         { //ブラックリストになる
             if (StealPlugin.config.getList("thief").contains(thief.getName()))
