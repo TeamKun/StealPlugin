@@ -8,13 +8,7 @@ import jp.yukiat.stealplugin.enums.MaterialType;
 import jp.yukiat.stealplugin.timers.HealTimer;
 import jp.yukiat.stealplugin.utils.Decorations;
 import jp.yukiat.stealplugin.utils.PlayerUtil;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,18 +22,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
-public class Events implements Listener
-{
+public class Events implements Listener {
     private final double maxDistance = 50;
 
     @EventHandler(ignoreCancelled = true)
-    public void onClickEvent(PlayerInteractEntityEvent e)
-    {
+    public void onClickEvent(PlayerInteractEntityEvent e) {
         Player thief = e.getPlayer();
 
         // オフハンドなら返す
@@ -57,10 +46,8 @@ public class Events implements Listener
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onJoin(PlayerJoinEvent e)
-    {
-        if (StealPlugin.config.getStringList("target").contains(e.getPlayer().getName()))
-        {
+    public void onJoin(PlayerJoinEvent e) {
+        if (StealPlugin.config.getStringList("target").contains(e.getPlayer().getName())) {
             setOwnSkull(e.getPlayer());
 
             Skin defaultSkin = SkinContainer.getSkinByOrder(0);
@@ -72,8 +59,7 @@ public class Events implements Listener
     }
 
     @EventHandler
-    public void onRightClick(PlayerInteractEvent e)
-    {
+    public void onRightClick(PlayerInteractEvent e) {
         Bukkit.getLogger().info(e.getAction() + ": " + e.getPlayer());
         // 右クリックじゃなかったらはじく
         if (!e.getAction().equals(Action.LEFT_CLICK_AIR))
@@ -82,13 +68,10 @@ public class Events implements Listener
         Player thief = e.getPlayer();
         Player target = PlayerUtil.getLookingEntity(thief);
 
-        if (StealPlugin.config.getList("remote").contains("*"))
-        {
+        if (StealPlugin.config.getList("remote").contains("*")) {
             if (StealPlugin.config.getList("remote").contains(thief.getName()))
                 return;
-        }
-        else
-        {
+        } else {
             if (!StealPlugin.config.getList("remote").contains(thief.getName()))
                 return;
         }
@@ -97,8 +80,7 @@ public class Events implements Listener
         if (target == null)
             return;
 
-        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
-        {
+        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId())) {
             thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
             return;
         }
@@ -115,11 +97,9 @@ public class Events implements Listener
         Decorations.magic(target, 60);
         Decorations.secLinesPlayer(thief, target, 60);
 
-        new BukkitRunnable()
-        {
+        new BukkitRunnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 if (steal(thief, target))
                     StealPlugin.getPlugin().stealing.remove(thief.getUniqueId());
             }
@@ -128,93 +108,68 @@ public class Events implements Listener
     }
 
     @EventHandler
-    public void onLeave(PlayerQuitEvent e)
-    {
+    public void onLeave(PlayerQuitEvent e) {
         StealPlugin.getPlugin().stealed.remove(e.getPlayer().getUniqueId());
         PlayerUtil.removeMetaData(e.getPlayer(), "order");
     }
 
-    private void setOwnSkull(Player player)
-    {
-        new BukkitRunnable()
-        {
+    private void setOwnSkull(Player player) {
+        new BukkitRunnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 player.getInventory().setHelmet(PlayerUtil.getSkullStack(PlayerUtil.getSkin(player.getUniqueId())));
             }
         }.runTaskAsynchronously(StealPlugin.getPlugin());
     }
 
-    private boolean canSteal(Player thief, Player target)
-    {
-        if (StealPlugin.config.getList("thief").contains("*"))
-        { //ブラックリストになる
-            if (StealPlugin.config.getList("thief").contains(thief.getName()))
-            {
-                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
-                return false;
-            }
-        }
-        else
-        {
-            if (!StealPlugin.config.getList("thief").contains(thief.getName()))
-            {
-                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
-                return false;
-            }
+    private boolean canSteal(Player thief, Player target) {
+        List<?> thiefList = StealPlugin.config.getList("thief");
+        boolean isThiefBlackListed = thiefList.contains("*");
+
+        if (isThiefBlackListed && thiefList.contains(thief.getName())) {
+            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            return false;
         }
 
-        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
-        {
+        if (!isThiefBlackListed && !thiefList.contains(thief.getName())) {
+            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            return false;
+        }
+
+        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId())) {
             thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
             return false;
         }
 
-        if (StealPlugin.config.getList("target").contains("*"))
-        {
-            if (StealPlugin.config.getList("target").contains(thief.getName()))
-            {
-                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
-                return false;
-            }
-        }
-        else
-        {
-            if (!StealPlugin.config.getList("target").contains(thief.getName()))
-            {
-                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
-                return false;
-            }
+        List<?> targetList = StealPlugin.config.getList("target");
+        boolean isTargetBlackListed = targetList.contains("*");
+
+        if (isTargetBlackListed && targetList.contains(thief.getName())) {
+            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            return false;
         }
 
-        // 素手じゃなければ除外
-        if (thief.getInventory().getItemInMainHand().getType() != Material.AIR)
-        {
+        if (!isTargetBlackListed && !targetList.contains(thief.getName())) {
+            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            return false;
+        }
+
+        if (thief.getInventory().getItemInMainHand().getType() != Material.AIR) {
             thief.sendMessage(ChatColor.RED + "素手じゃないと服を盗めないよ！");
             return false;
         }
 
-        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
-        {
+        if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId())) {
             thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
             return false;
         }
 
-        int temp = 0;
+        int order = 0;
 
-        if (PlayerUtil.hasMetaData(target, "order"))
-        {
-            Optional<MetadataValue> mbs = PlayerUtil.getMetaData(target, "order");
-            if (mbs.isPresent())
-                temp = mbs.get().asInt();
-        }
-        final int order = temp;
+        if (PlayerUtil.getMetaData(target, "order").isPresent())
+            order = PlayerUtil.getMetaData(target, "order").get().asInt();
 
-        int len = ArmorType.values().length - 1; // 3
-
-        if (order >= len)
-        {
+        if (order >= 3) {
             thief.sendMessage(ChatColor.RED + "もうはだかだよ！！！");
             return false;
         }
@@ -222,42 +177,31 @@ public class Events implements Listener
         return true;
     }
 
-    private boolean steal(Player thief, Player target)
-    {
+    private boolean steal(Player thief, Player target) {
         if (!canSteal(thief, target))
             return false;
 
-        int temp = 0;
+        int order = 0;
+        if (PlayerUtil.getMetaData(target, "order").isPresent())
+            order = PlayerUtil.getMetaData(target, "order").get().asInt();
 
-        if (PlayerUtil.hasMetaData(target, "order"))
-        {
-            Optional<MetadataValue> mbs = PlayerUtil.getMetaData(target, "order");
-            if (mbs.isPresent())
-                temp = mbs.get().asInt();
-        }
-        final int order = temp;
-
-        int len = ArmorType.values().length - 1; // 3
+        int len = 3;
 
         StealPlugin.getPlugin().stealing.add(thief.getUniqueId());
 
-
         setOwnSkull(target);
 
-        new BukkitRunnable()
-        {
+        int finalOrder = order;
+        new BukkitRunnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Skin skin;
                 World world = target.getWorld();
 
                 // 一撃で脱げる女
-                if (StealPlugin.config.getList("oneshots").contains(target.getName()))
-                {
+                if (StealPlugin.config.getList("oneshots").contains(target.getName())) {
                     skin = SkinContainer.getSkinByOrder(len);
-                    for (int i = order; i < len; i++)
-                    {
+                    for (int i = finalOrder; i < len; i++) {
                         ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);
 
                         //ItemStack[] aa = target.getInventory().getArmorContents();
@@ -279,7 +223,7 @@ public class Events implements Listener
                     }
 
                     Bukkit.getOnlinePlayers().stream()
-                            .filter(player -> !(player.getName().equals(target.getName()) || target.getName().equals(thief.getName())))
+                            .filter(player -> !player.getName().equals(target.getName()) && !target.getName().equals(thief.getName()))
                             .forEach(
                                     player -> {
                                         player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" +
@@ -292,16 +236,15 @@ public class Events implements Listener
                     PlayerUtil.setMetaData(target, "order", len);
                 }
                 // 一般の女
-                else
-                {
-                    skin = SkinContainer.getSkinByOrder(order + 1);
+                else {
+                    skin = SkinContainer.getSkinByOrder(finalOrder + 1);
 
                     //ItemStack[] aa = target.getInventory().getArmorContents();
                     //aa[order] = new ItemStack(Material.AIR);
 
                     //target.getInventory().setArmorContents(aa);
 
-                    ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
+                    ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[finalOrder], MaterialType.LEATHER);
                     thief.getInventory().setItemInMainHand(item);
 
                     Bukkit.getOnlinePlayers().stream()
@@ -310,16 +253,16 @@ public class Events implements Listener
                                     player -> {
                                         player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" +
                                                 ChatColor.GOLD + target.getName() + ChatColor.GREEN + "の" +
-                                                ChatColor.GOLD + ArmorType.values()[order].getDisplayName() +
+                                                ChatColor.GOLD + ArmorType.values()[finalOrder].getDisplayName() +
                                                 ChatColor.GREEN + "を盗みました！");
                                     }
                             );
                     thief.sendMessage(ChatColor.GOLD + target.getName() +
-                            ChatColor.GREEN + "の" + ArmorType.values()[order].getDisplayName() + "を盗みました！");
+                            ChatColor.GREEN + "の" + ArmorType.values()[finalOrder].getDisplayName() + "を盗みました！");
                     target.sendMessage(ChatColor.GOLD + thief.getName() +
-                            ChatColor.GREEN + "に" + ArmorType.values()[order].getDisplayName() + "を盗まれました！");
+                            ChatColor.GREEN + "に" + ArmorType.values()[finalOrder].getDisplayName() + "を盗まれました！");
 
-                    PlayerUtil.setMetaData(target, "order", order + 1);
+                    PlayerUtil.setMetaData(target, "order", finalOrder + 1);
                 }
 
                 // パーティクル
@@ -356,10 +299,8 @@ public class Events implements Listener
 
 
     @EventHandler
-    public void onEquipment(PlayerArmorChangeEvent event)
-    {
-        try
-        {
+    public void onEquipment(PlayerArmorChangeEvent event) {
+        try {
             if (event.getSlotType() == PlayerArmorChangeEvent.SlotType.HEAD || Objects.requireNonNull(event.getOldItem()).getType() != Material.AIR ||
                     Objects.requireNonNull(event.getNewItem()).getType() == Material.AIR)
                 return;
@@ -382,8 +323,7 @@ public class Events implements Listener
             aa.add(0, new ItemStack(Material.AIR));
             event.getPlayer().getInventory().setArmorContents(aa.toArray(new ItemStack[0]));
 
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
-
     }
 }
