@@ -23,9 +23,7 @@ public class Events implements Listener
 
         // オフハンドなら返す
         if (e.getHand().equals(EquipmentSlot.OFF_HAND))
-        {
             return;
-        }
 
         //右クリックしたやつがプレイヤーじゃないので除外
         if (!(e.getRightClicked() instanceof Player))
