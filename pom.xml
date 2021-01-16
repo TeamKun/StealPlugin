@@ -42,6 +42,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>com.fasterxml.jackson.core:*</include>
+                                    <include>com.github.P2P-develop:*</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
@@ -70,6 +71,10 @@
             <id>tunnel</id>
             <url>https://repo.mikeprimm.com/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -88,6 +93,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.12.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.P2P-develop</groupId>
+            <artifactId>PeyangSuperLibrary</artifactId>
+            <version>11.4514.810</version>
         </dependency>
     </dependencies>
 </project>

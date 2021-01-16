@@ -15,6 +15,7 @@ public final class StealPlugin extends JavaPlugin
     public static FileConfiguration config;
     private static StealPlugin plugin;
     public final ArrayList<UUID> stealed = new ArrayList<>();
+    public final ArrayList<UUID> stealing = new ArrayList<>();
 
     public static StealPlugin getPlugin()
     {
@@ -42,6 +43,7 @@ public final class StealPlugin extends JavaPlugin
         heal = heal * 20;
         new HealTimer().runTaskTimer(this, 0, heal);
         new Timer().runTaskTimer(this, 0, config.getLong("effect"));
+        Bukkit.getOnlinePlayers().forEach(player -> stealed.add(player.getUniqueId()));
     }
 
     @Override
