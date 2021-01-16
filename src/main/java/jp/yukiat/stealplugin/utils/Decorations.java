@@ -158,8 +158,9 @@ public class Decorations
 
     /**
      * 線引く
-     * @param from さいしょ
-     * @param to さいご
+     *
+     * @param from    さいしょ
+     * @param to      さいご
      * @param seconds びょーすー
      */
     public static void secLinesPlayer(Player from, Player to, int seconds)

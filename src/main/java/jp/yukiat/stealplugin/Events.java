@@ -3,7 +3,6 @@ package jp.yukiat.stealplugin;
 import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.enums.*;
 import jp.yukiat.stealplugin.utils.*;
-import net.md_5.bungee.api.chat.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -192,7 +191,7 @@ public class Events implements Listener
 
         return true;
     }
-    
+
     private boolean steal(Player thief, Player target)
     {
         if (!canSteal(thief, target))
@@ -270,7 +269,7 @@ public class Events implements Listener
                             .filter(player -> !(player.getName().equals(target.getName()) || target.getName().equals(thief.getName())))
                             .forEach(
                                     player -> {
-                                        player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" + 
+                                        player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" +
                                                 ChatColor.GOLD + target.getName() + ChatColor.GREEN + "の" +
                                                 ChatColor.GOLD + ArmorType.values()[order].getDisplayName() +
                                                 ChatColor.GREEN + "を盗みました！");

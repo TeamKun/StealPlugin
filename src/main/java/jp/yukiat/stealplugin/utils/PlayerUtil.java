@@ -67,7 +67,6 @@ public class PlayerUtil
         return false;
     }
 
-
     public static ItemStack getSkullStack(Skin skin)
     {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
