@@ -35,11 +35,21 @@ public class Events implements Listener
         if (!thief.isSneaking())
             return;
 
-        //盗人可能リストにいないので除外
-        if (!StealPlugin.config.getList("thief").contains(thief.getName()))
+        if (StealPlugin.config.getList("thief").contains("*"))
+        { //ブラックリストになる
+            if (StealPlugin.config.getList("thief").contains(thief.getName()))
+            {
+                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+                return;
+            }
+        }
+        else
         {
-            thief.sendMessage("盗めないよ！！！");
-            return;
+            if (!StealPlugin.config.getList("thief").contains(thief.getName()))
+            {
+                thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+                return;
+            }
         }
 
         Player target = (Player) e.getRightClicked();
