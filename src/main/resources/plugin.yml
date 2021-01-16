@@ -6,6 +6,5 @@ authors:
   - SaikyouPeyangsan
   - YukiAt
 commands:
-  change:
-    usage: /<Command>
-    description: スキン変更
+  nbt:
+    description: NBTビュー

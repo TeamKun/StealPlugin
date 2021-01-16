@@ -2,6 +2,7 @@ package jp.yukiat.stealplugin;
 
 import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.enums.*;
+import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
@@ -79,6 +80,7 @@ public class ItemFactory
         ));
         AtomicReference<String> name = new AtomicReference<>(
                 ChatColor.GOLD + target.getName() + ChatColor.AQUA + "の" + type.getDisplayName());
+        AtomicReference<EffectCore> effect = new AtomicReference<>();
 
         if (core.material != null)
             realMaterial.set(core.material);
@@ -90,6 +92,8 @@ public class ItemFactory
             ));
         if (core.itemName != null)
             name.set(core.itemName);
+        if (core.effect != null)
+            effect.set(core.effect);
 
         core.items.forEach(item -> {
             if (item.type == null || item.type != type)
@@ -108,19 +112,23 @@ public class ItemFactory
 
             if (item.name != null)
                 name.set(item.name
-                            .replace("%%name%%", target.getName())
-                            .replace("%%armor_type%%", type.getDisplayName())
-                            .replace("%%material%%", material.getDisplayName()));
+                        .replace("%%name%%", target.getName())
+                        .replace("%%armor_type%%", type.getDisplayName())
+                        .replace("%%material%%", material.getDisplayName()));
 
+            if (item.effect != null)
+                effect.set(item.effect);
 
         });
-        ItemStack baseItem = getBaseItem(type, realMaterial.get());
+        ItemStack baseItem = getBaseItem(type, realMaterial.get()).clone();
         ItemMeta meta = baseItem.getItemMeta();
         meta.setDisplayName(name.get());
 
         if (realMaterial.get() != MaterialType.LEATHER)
         {
             baseItem.setItemMeta(meta);
+            if (effect.get() != null)
+                baseItem = addEffect(baseItem, effect.get());
             return baseItem;
         }
 
@@ -129,7 +137,21 @@ public class ItemFactory
         lam.setColor(color.get());
 
         baseItem.setItemMeta(meta);
+        if (effect.get() != null)
+            baseItem = addEffect(baseItem, effect.get());
         return baseItem;
+    }
+
+    private static ItemStack addEffect(ItemStack ss, EffectCore core)
+    {
+        ItemStack stack = ss.clone();
+        stack = ItemUtil.addMetaData(stack, "particle_name", core.particle.name());
+        stack = ItemUtil.addMetaData(stack, "particle_count", Integer.toString(core.count));
+        stack = ItemUtil.addMetaData(stack, "particle_offset_x", Double.toString(core.offsetX));
+        stack = ItemUtil.addMetaData(stack, "particle_offset_y", Double.toString(core.offsetY));
+        stack = ItemUtil.addMetaData(stack, "particle_offset_z", Double.toString(core.offsetZ));
+        stack = ItemUtil.addMetaData(stack, "particle_extra", Double.toString(core.extra));
+        return stack;
     }
 
     public static ItemStack getRandomItemStack(String playerName, ArmorType type, MaterialType material)

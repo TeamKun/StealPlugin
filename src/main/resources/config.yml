@@ -58,6 +58,14 @@ specials:
     items:
       - type: LEGGINGS
         name: "§6%%name%%§bの膝のあたりが§2臭い§b%%armor_type%%"
+        effect:
+          particle: SPELL_MOB_AMBIENT
+          count: 10
+          offsetX: 0.1
+          offsetY: 0.3
+          offsetZ: 0.1
+          extra: 0.1
+
 #  - name: 23zi_51hun
 #  - name: suzuki2929
 #  - name: kikaru0014
@@ -122,6 +130,8 @@ rares:
 
 # 服が回復するまでの時間(秒)
 heal: 60
+# エフェクト出すタイマー(チック)
+effect: 10
 
 # スキン
 # orderの最大値は３で、０：全身服を着たスキン、１：くつだけを脱いだスキン、２：くつと上着だけ脱いだスキン、３：全裸のスキン

@@ -9,6 +9,7 @@ public class SpecialCore
     public String name;
     public String color;
     public String itemName;
+    public EffectCore effect;
     public ArrayList<Item> items;
     public MaterialType material = MaterialType.LEATHER;
 
@@ -18,6 +19,7 @@ public class SpecialCore
         public String name;
         public String color;
         public MaterialType material;
+        public EffectCore effect;
     }
 
 }

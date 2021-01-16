@@ -1,5 +1,6 @@
-package jp.yukiat.stealplugin;
+package jp.yukiat.stealplugin.timers;
 
+import jp.yukiat.stealplugin.*;
 import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
