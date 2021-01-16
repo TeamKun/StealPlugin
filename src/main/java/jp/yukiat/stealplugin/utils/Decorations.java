@@ -128,9 +128,9 @@ public class Decorations
     {
         Location n = new Location(
                 center.getWorld(),
-                particle_x(count, radius) + center.getX(),
+                particleX(count, radius) + center.getX(),
                 center.getY(),
-                particle_z(count, radius) + center.getZ()
+                particleZ(count, radius) + center.getZ()
         );
 
         particle(n);
@@ -148,9 +148,9 @@ public class Decorations
     {
         Location n = new Location(
                 center.getWorld(),
-                particle_x(count, radius) + center.getX(),
+                particleX(count, radius) + center.getX(),
                 center.getY(),
-                particle_z(count, radius) + center.getZ()
+                particleZ(count, radius) + center.getZ()
         );
 
         particle(n, 5, particle);
@@ -260,7 +260,7 @@ public class Decorations
      * @param radius 半径。
      * @return 位置。
      */
-    private static double particle_z(double time, double radius)
+    private static double particleZ(double time, double radius)
     {
         return Math.sin(time) * radius * Math.cos(Math.PI / 180 * 360.0);
     }
@@ -272,7 +272,7 @@ public class Decorations
      * @param radius 半径。
      * @return 位置。
      */
-    private static double particle_x(double time, double radius)
+    private static double particleX(double time, double radius)
     {
         return Math.cos(time) * radius;
     }
