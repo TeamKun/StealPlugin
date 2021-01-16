@@ -6,21 +6,68 @@ import com.mojang.authlib.properties.*;
 import jp.yukiat.stealplugin.*;
 import jp.yukiat.stealplugin.config.*;
 import org.bukkit.*;
+import org.bukkit.block.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
 import org.bukkit.metadata.*;
 import org.bukkit.scheduler.*;
+import org.bukkit.util.*;
 
 import java.io.*;
 import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
+import java.util.stream.*;
 
 public class PlayerUtil
 {
+    /**
+     * 誰が見てるのかわかるやつ。
+     *
+     * @param player 見られてるプレイヤー。
+     * @return 見てるプレイヤー。
+     */
+    public static Player getLookingEntity(Player player)
+    {
+        for (Location location : player.getLineOfSight(null, 50).parallelStream().map(Block::getLocation)
+                .collect(Collectors.toCollection(ArrayList::new)))
+            for (Entity entity : player.getNearbyEntities(50, 50, 50))
+            {
+                if (entity instanceof Player)
+                    if (isLooking((Player) entity, location) && entity.getType() == EntityType.PLAYER)
+                        return (Player) entity;
+            }
+
+
+        return null;
+    }
+
+    /**
+     * 今見てるかわかるやつ。
+     *
+     * @param player   見られてるプレイヤー。
+     * @param location あと場所。
+     * @return 見られてたらtrue。
+     */
+    public static boolean isLooking(Player player, Location location)
+    {
+        BlockIterator it = new BlockIterator(player, 50);
+
+        while (it.hasNext())
+        {
+            final Block block = it.next();
+            if (block.getX() == location.getBlockX() &&
+                    block.getY() == location.getBlockY() &&
+                    block.getZ() == location.getBlockZ())
+                return true;
+        }
+        return false;
+    }
+
+
     public static ItemStack getSkullStack(Skin skin)
     {
         ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
