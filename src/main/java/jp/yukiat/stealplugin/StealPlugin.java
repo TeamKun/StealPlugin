@@ -2,6 +2,8 @@ package jp.yukiat.stealplugin;
 
 import jp.yukiat.stealplugin.commands.*;
 import jp.yukiat.stealplugin.config.*;
+import jp.yukiat.stealplugin.timers.Timer;
+import jp.yukiat.stealplugin.timers.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.*;
 import org.bukkit.plugin.java.*;
@@ -24,7 +26,7 @@ public final class StealPlugin extends JavaPlugin
     public void onEnable()
     {
         plugin = this;
-        Bukkit.getPluginCommand("change").setExecutor(new ChangeSkin());
+        Bukkit.getPluginCommand("nbt").setExecutor(new NBT());
         Bukkit.getPluginManager().registerEvents(new Events(), this);
 
         saveDefaultConfig();
@@ -39,6 +41,7 @@ public final class StealPlugin extends JavaPlugin
             heal = 1;
         heal = heal * 20;
         new HealTimer().runTaskTimer(this, 0, heal);
+        new Timer().runTaskTimer(this, 0, 20);
     }
 
     @Override

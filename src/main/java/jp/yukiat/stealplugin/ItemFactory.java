@@ -2,6 +2,7 @@ package jp.yukiat.stealplugin;
 
 import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.enums.*;
+import jp.yukiat.stealplugin.utils.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.*;
@@ -79,6 +80,7 @@ public class ItemFactory
         ));
         AtomicReference<String> name = new AtomicReference<>(
                 ChatColor.GOLD + target.getName() + ChatColor.AQUA + "の" + type.getDisplayName());
+        AtomicReference<EffectCore> effect = new AtomicReference<>();
 
         if (core.material != null)
             realMaterial.set(core.material);
@@ -90,6 +92,8 @@ public class ItemFactory
             ));
         if (core.itemName != null)
             name.set(core.itemName);
+        if (core.effect != null)
+            effect.set(core.effect);
 
         core.items.forEach(item -> {
             if (item.type == null || item.type != type)
@@ -108,15 +112,26 @@ public class ItemFactory
 
             if (item.name != null)
                 name.set(item.name
-                            .replace("%%name%%", target.getName())
-                            .replace("%%armor_type%%", type.getDisplayName())
-                            .replace("%%material%%", material.getDisplayName()));
+                        .replace("%%name%%", target.getName())
+                        .replace("%%armor_type%%", type.getDisplayName())
+                        .replace("%%material%%", material.getDisplayName()));
 
+            if (item.effect != null)
+                effect.set(item.effect);
 
         });
         ItemStack baseItem = getBaseItem(type, realMaterial.get());
         ItemMeta meta = baseItem.getItemMeta();
         meta.setDisplayName(name.get());
+        if (effect.get() != null)
+        {
+            ItemUtil.addMetaData(baseItem, "effect_name", effect.get().particle.name());
+            ItemUtil.addMetaData(baseItem, "effect_count", Integer.toString(effect.get().count));
+            ItemUtil.addMetaData(baseItem, "effect_offset_x", Double.toString(effect.get().offsetX));
+            ItemUtil.addMetaData(baseItem, "effect_offset_y", Double.toString(effect.get().offsetY));
+            ItemUtil.addMetaData(baseItem, "effect_offset_z", Double.toString(effect.get().offsetZ));
+            ItemUtil.addMetaData(baseItem, "effect_extra", Double.toString(effect.get().extra));
+        }
 
         if (realMaterial.get() != MaterialType.LEATHER)
         {
