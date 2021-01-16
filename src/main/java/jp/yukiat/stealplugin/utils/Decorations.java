@@ -91,7 +91,7 @@ public class Decorations
      */
     public static void particle(Location location)
     {
-        particle(location, 5);
+        particle(location, 2);
     }
 
     /**
@@ -113,7 +113,7 @@ public class Decorations
         {
             vP.add(line);
             particle(vP.toLocation(path.getWorld()), 1, Particle.ENCHANTMENT_TABLE);
-            d += 0.2;
+            d += 0.3;
         }
     }
 

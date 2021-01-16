@@ -3,6 +3,7 @@ package jp.yukiat.stealplugin;
 import jp.yukiat.stealplugin.config.*;
 import jp.yukiat.stealplugin.enums.*;
 import jp.yukiat.stealplugin.utils.*;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.*;
@@ -19,7 +20,6 @@ public class Events implements Listener
     private final double maxDistance = 50;
 
     @EventHandler(ignoreCancelled = true)
-    @SuppressWarnings("ConstantConditions")
     public void onClickEvent(PlayerInteractEntityEvent e)
     {
         Player thief = e.getPlayer();
@@ -245,6 +245,17 @@ public class Events implements Listener
                                 ChatColor.GREEN + "に" + ArmorType.values()[i].getDisplayName() + "を盗まれました！");
                     }
 
+                    Bukkit.getOnlinePlayers().stream()
+                            .filter(player -> !(player.getName().equals(target.getName()) || target.getName().equals(thief.getName())))
+                            .forEach(
+                                    player -> {
+                                        player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" +
+                                                ChatColor.GOLD + target.getName() + ChatColor.GREEN + "を" +
+                                                ChatColor.RED + ChatColor.BOLD + "全裸" +
+                                                ChatColor.RESET + ChatColor.GREEN + "にしました！");
+                                    }
+                            );
+
                     PlayerUtil.setMetaData(target, "order", len);
                 }
                 // 一般の女
@@ -255,6 +266,16 @@ public class Events implements Listener
                     ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
                     thief.getInventory().setItemInMainHand(item);
 
+                    Bukkit.getOnlinePlayers().stream()
+                            .filter(player -> !(player.getName().equals(target.getName()) || target.getName().equals(thief.getName())))
+                            .forEach(
+                                    player -> {
+                                        player.sendMessage(ChatColor.GOLD + thief.getName() + ChatColor.GREEN + "が" + 
+                                                ChatColor.GOLD + target.getName() + ChatColor.GREEN + "の" +
+                                                ChatColor.GOLD + ArmorType.values()[order].getDisplayName() +
+                                                ChatColor.GREEN + "を盗みました！");
+                                    }
+                            );
                     thief.sendMessage(ChatColor.GOLD + target.getName() +
                             ChatColor.GREEN + "の" + ArmorType.values()[order].getDisplayName() + "を盗みました！");
                     target.sendMessage(ChatColor.GOLD + thief.getName() +
