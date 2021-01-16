@@ -41,7 +41,7 @@ public final class StealPlugin extends JavaPlugin
             heal = 1;
         heal = heal * 20;
         new HealTimer().runTaskTimer(this, 0, heal);
-        new Timer().runTaskTimer(this, 0, 20);
+        new Timer().runTaskTimer(this, 0, config.getLong("effect"));
     }
 
     @Override

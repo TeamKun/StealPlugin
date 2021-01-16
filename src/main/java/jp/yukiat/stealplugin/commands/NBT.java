@@ -23,7 +23,8 @@ public class NBT implements CommandExecutor
 
                     ComponentBuilder builder =
                             new ComponentBuilder(ChatColor.GREEN + s + "   " + ChatColor.AQUA + "->" +
-                                    ChatColor.LIGHT_PURPLE + "   " + s2.replace("\n", "\n" + ChatColor.LIGHT_PURPLE));
+                                    ChatColor.LIGHT_PURPLE + "   " + s2.replace("§", "&").replace("\n", "\n" + ChatColor.LIGHT_PURPLE)
+                            );
                     builder.event(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, s2.replace("\n", "")));
 
                     p.spigot().sendMessage(builder.create());

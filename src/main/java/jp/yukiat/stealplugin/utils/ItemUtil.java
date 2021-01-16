@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.*;
 import com.google.gson.*;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.objects.*;
 import org.bukkit.craftbukkit.v1_15_R1.inventory.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.*;
@@ -109,7 +110,7 @@ public class ItemUtil
             Field field = NBTTagCompound.class.getDeclaredField("map");
             field.setAccessible(true);
             @SuppressWarnings("unchecked")
-            HashMap<String, NBTBase> map = (HashMap<String, NBTBase>) field.get(tagCompound);
+            Object2ObjectOpenHashMap<String, NBTBase> map = (Object2ObjectOpenHashMap<String, NBTBase>) field.get(tagCompound);
 
             HashMap<String, String> result = new HashMap<>();
             map.forEach((s, nbtBase) -> {
@@ -128,6 +129,7 @@ public class ItemUtil
         }
         catch (Exception e)
         {
+            e.printStackTrace();
             return new HashMap<>();
         }
 

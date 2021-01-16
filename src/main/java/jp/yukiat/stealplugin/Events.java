@@ -65,7 +65,7 @@ public class Events implements Listener
         }
         final int order = temp;
 
-        int len = ArmorType.values().length; // 3
+        int len = ArmorType.values().length - 1; // 3
 
         if (order >= len)
         {

@@ -120,22 +120,15 @@ public class ItemFactory
                 effect.set(item.effect);
 
         });
-        ItemStack baseItem = getBaseItem(type, realMaterial.get());
+        ItemStack baseItem = getBaseItem(type, realMaterial.get()).clone();
         ItemMeta meta = baseItem.getItemMeta();
         meta.setDisplayName(name.get());
-        if (effect.get() != null)
-        {
-            ItemUtil.addMetaData(baseItem, "effect_name", effect.get().particle.name());
-            ItemUtil.addMetaData(baseItem, "effect_count", Integer.toString(effect.get().count));
-            ItemUtil.addMetaData(baseItem, "effect_offset_x", Double.toString(effect.get().offsetX));
-            ItemUtil.addMetaData(baseItem, "effect_offset_y", Double.toString(effect.get().offsetY));
-            ItemUtil.addMetaData(baseItem, "effect_offset_z", Double.toString(effect.get().offsetZ));
-            ItemUtil.addMetaData(baseItem, "effect_extra", Double.toString(effect.get().extra));
-        }
 
         if (realMaterial.get() != MaterialType.LEATHER)
         {
             baseItem.setItemMeta(meta);
+            if (effect.get() != null)
+                baseItem = addEffect(baseItem, effect.get());
             return baseItem;
         }
 
@@ -144,7 +137,21 @@ public class ItemFactory
         lam.setColor(color.get());
 
         baseItem.setItemMeta(meta);
+        if (effect.get() != null)
+            baseItem = addEffect(baseItem, effect.get());
         return baseItem;
+    }
+
+    private static ItemStack addEffect(ItemStack ss, EffectCore core)
+    {
+        ItemStack stack = ss.clone();
+        stack = ItemUtil.addMetaData(stack, "particle_name", core.particle.name());
+        stack = ItemUtil.addMetaData(stack, "particle_count", Integer.toString(core.count));
+        stack = ItemUtil.addMetaData(stack, "particle_offset_x", Double.toString(core.offsetX));
+        stack = ItemUtil.addMetaData(stack, "particle_offset_y", Double.toString(core.offsetY));
+        stack = ItemUtil.addMetaData(stack, "particle_offset_z", Double.toString(core.offsetZ));
+        stack = ItemUtil.addMetaData(stack, "particle_extra", Double.toString(core.extra));
+        return stack;
     }
 
     public static ItemStack getRandomItemStack(String playerName, ArmorType type, MaterialType material)
