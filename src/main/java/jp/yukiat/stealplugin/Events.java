@@ -87,7 +87,6 @@ public class Events implements Listener
                 if (StealPlugin.config.getList("oneshots").contains(target.getName()))
                 {
                     skin = SkinContainer.getSkinByOrder(len);
-
                     for (int i = order; i < len; i++)
                     {
                         ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);

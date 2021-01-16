@@ -59,7 +59,6 @@ public class PlayerUtil
     {
         if (skin.isEmpty())
             return;
-        System.out.println("setSkin");
         setSkin(player, skin.getValue(), skin.getSignature());
     }
 
