@@ -1,66 +1,133 @@
 # 服を盗めるプレイヤー
 thief:
-  - SaikyouPeyangsan
+  - hahihato
+  - Kamesuta
+  - roadhog_kun
   - YukiAt
-  # debug 用
-  - dev_01
+  - SaikyouPeyangsan
 
 # 服を盗まれるプレイヤー
 target:
-  - SaikyouPeyangsan
-  - YukiAt
-  # debug 用
-  - dev_01
+  - rosec_pin
+  - urn1o
+  - YOSHIKO__chan__
+  - 23zi_51hun
+  - suzuki2929
+  - kikaru0014
+  - dbk_huuka
+  - kakikama
+  - ikeko_99
+  - kono_a
+  - _hinana_
+  - tabi_meido
+  - Arimamiko
+  - gin499
+  - norunoru315
+  - Kamesuta
+  - Tomas_kun
+  - Bro_Kuribo
+  - kein_kandy
 
 # 一発ですべての服が脱げるプレイヤー
 oneshots:
   - YOSHIKO__chan__
-  # debug 用
-  - dev_01
+  - norunoru315
+  - Kamesuta
 
 #特別設定
 #選択可能アイテムタイプ: CHESTPLATE, LEGGINGS, BOOTS
+#選択可能アイテム素材: LEATHER, GOLD, CHAIN, DIAMOND
 #色指定方法: #114514 <= 16進数指定, シャープ必ずつける
+#文字色指定方法: §<数字>  https://minecraft-ja.gamepedia.com/装飾コード 参照
+#環境変数一覧：
+#    - %%name%%       = ターゲットの名前
+#    - %%armor_type%% = 服の種類
+#    - %%material%%   = 服の素材
 specials:
+  - name: rosec_pin
+    itemName: "§6旬の過ぎた女のださい§b%%armor_type%%"
+  - name: urn1o
+    items:
+      - type: CHESTPLATE
+        name: "うるんる～の§bかわいいふく！"
+      - type: CHESTPLATE
+        name: "うるんる～の§bかわいいぱんつ！"
+      - type: BOOTS
+        name: "うるんる～の§bかわいいくつ！"
   - name: YOSHIKO__chan__
     items:
       - type: LEGGINGS
-        name: "膝のあたりが臭い"
+        name: "§6%%name%%§bの膝のあたりが§2臭い§b%%armor_type%%"
+#  - name: 23zi_51hun
+#  - name: suzuki2929
+#  - name: kikaru0014
+#  - name: dbk_huuka
+#  - name: kakikama
   - name: ikeko_99
-    items:
+    itemName: "§6%%name%%§0のエロい§b%%armor_type%%"
+#  - name: kono_a
+#  - name: _hinana_
+#  - name: tabi_meido
+#  - name: Arimamiko
+  - name: gin499
+    material: CHAIN
+#  - name: norunoru315
+#  - name: Kamesuta
+  - name: Tomas_kun
+    itmes:
       - type: CHESTPLATE
-        name: "エロい"
-      - type: LEGGINGS
-        name: "エロい"
-      - type: BOOTS
-        name: "エロい"
+        material: CHAIN
+        name: "§7%%name%%§8の吊り鎖の服"
+  - name: Bro_Kuribo
+    items:
+      - color: "#FFFFFF"
+        name: "§6%%name%%の§bサマナ服"
+  - name: kein_kandy
+    items:
+      - color: "#283042"
+        name: "§6%%name%%の§8あるまぁにの服"
+
 
 #レアなアイテム
 rares:
   - chance: 50 #50回に1回
     item:
-      name: ""
+      name: "§6%%name%%§bの水着"
       material: LEATHER
       type: CHESTPLATE
       color: "#282f5b"
+  - chance: 100
+    item:
+      name: "2年2組 涼風萌音(水着)"
+      material: LEATHER
+      type: CHESTPLATE
+      color: "#282f5b"
+  - chance: 50
+    item:
+      name: "§d使い古された%%name%%のクルタ"
+      material: LEATHER
+      type: ALL
+      color: "#ba4ad4"
+  - chance: 1000
+    item:
+      name: "§9§k_§1§k_§c§k_§r§aKUNのパンツ§9§k_§1§k_§c§k_"
+      material: LEATHER
+      type: LEGGINGS
+      color: "#000000"
+  - chance: 100
+    item:
+      name: "2年2組 涼風萌音(体操服)"
+      material: IRON
+      type: CHESTPLATE
 
 # 服が回復するまでの時間(秒)
-heal: 1
+heal: 60
 
 # スキン
 # orderの最大値は３で、０：全身服を着たスキン、１：くつだけを脱いだスキン、２：くつと上着だけ脱いだスキン、３：全裸のスキン
 # 上のheal時間ごとに-1されたorderのスキンに変わり、最終的に０のスキンとなります。
 skins:
-  # debug用スキン
-  - order: 0
-    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDE5MTgyMCwKICAicHJvZmlsZUlkIiA6ICI1OGMwMWYzMTQ2ODU0NjBiODllZmZmOGI2NTMxMTQ0OCIsCiAgInByb2ZpbGVOYW1lIiA6ICJSb3RyaV9TdHVkaW9ZVCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iZmUwYzI3ZWY4YzczZmE3OWI3MDVlN2E4MDI1M2Y5MTM2OGRmMzBkOTMxZjU3OTllOTdjNGI0ZWVkMmE4MTUzIiwKICAgICAgIm1ldGFkYXRhIiA6IHsKICAgICAgICAibW9kZWwiIDogInNsaW0iCiAgICAgIH0KICAgIH0KICB9Cn0="
-    signature: "TT1nDac5Ctbfy04aHSkqOn7U1pw3ydhe+fjUFhRY7lmDW1PzrJJEg2aVc3fGCXTFfovyYMG+f4qk485a+5PfPvfidcjXhiMgCx+So/8VkyKL5cNdVlWAbi0OPHDV81bl/DrbzjHFjm08+MNpafAvPmI0TL6wWX5Gml5ZJNX+bUjlFvzaTdHE9g+7ogmLIlrAZ0LlvYdhM5wa3AtPM2ZPKTxvdLORMvlHYAm8IDTEWH9sGI/YB6PvkNmqpZPpT817cbSKkvQDa1n0j8Msg0jLajK//A2ni8zf0uAGGIjQ3tFeAvlcIbyuFkdXO5VaFOJh7cCqiL2kgotiKRHU8c51dsYF/D0OE12dHcDXJoOr+C8m4bS7owyTkyOpuUtL9g3N2Bpt9hbXGBmusq5BeDJpZ2ZKyvB4tZ5D4l2AypEa+ufKxHuBmTzAUQvBq2+Aku5hyB589N1tbuiYsBy2Ed4vNNEdHxUIyasm1GbvAm6aT95m0UUD+4Au1HhKY6NUdrxoWpprNSEJlvuYtN5zyYS2Z5wU1LOPZo/OpgyWidDC0y+Lr9k0dSl4Uwv8O1xYz0rnUK7O5WZ2LX2y4OP7adYzEQWShj0gYKPg+w9NCG/qiOHrDFghYdjLYHRdr9d0tvd0ECtiQDKU6Ffwy+m5ImPOJ3NpnwlU4bWJsIa+JqFXFMg="
-  - order: 1
-    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDM4OTA2NCwKICAicHJvZmlsZUlkIiA6ICIzOWEzOTMzZWE4MjU0OGU3ODQwNzQ1YzBjNGY3MjU2ZCIsCiAgInByb2ZpbGVOYW1lIiA6ICJkZW1pbmVjcmFmdGVybG9sIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2EzYzdhOTgzNmE4YzBmZDU1MmU0NjBlZGVjMzNmMDAwZmU5MmNjN2RkYTQ3NmNkODBlMGU2MDJkMzBlNzM2NDUiCiAgICB9CiAgfQp9"
-    signature: "wkincz0JVZxOW/D0DGTztH4Caw91WLOz/ug5l5jhKkcP1B4OociaHBtiRXSM1ue3JB58HYFuh+5tSUddVfAt+Jo1o663MEKuWM3SrFGBg0snwErPgZoTS+Y5TtryPe01Dopwa5BGJIBbe+gKXM3/NyBETg9+iNelyuFa7Qhgs2+eNDvtUljOarnH20BVn7ZpRyS0yL1ZRFZMfAaCzWtpWVELAxqgt3hBfx2ZJFUM3IAvTz7mlhKKSosDuejrwnw6zeLUUFhBZfKTB90bjC7HUDBi/LtMmBvDfLZ0YizqXE+xEz1nqFfBCxQkXetb1TTdQe/AffNR45nxcCGdgkyHLC1fQrJQxnGwcng5LeHW2NehnnU8w5eQcH4gEvc/6kt146SoZbWi6iiIj7YGrTCBkbp8Q3gg1pV2IqdtnZEqNZK31Cei0/R0gN3uY/yaEoIZpXQlaOKcsVYeZbVfSdDp3pjm67fAZuQu9yU7H+5gOaYC47s7U21mNEwV+KZOLqJhnZi2j6GmRFAeRyznd3pcYIfOIJqVdNzyZpzQwUNgYaWCZB4XfjxqaWMmSMLshaeZ3qIK5wv6h/AzwreyxxAHMyZ2Z9xpfaK4uvxwHtzDmPoD0dAIsnAg+7Q5PFHA2B0AZ6XVr5Vw1OnH88283A+GrkEbjW/0CxRW6zNWdxgpdbk="
-  - order: 2
-    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDQ1NzQ3NiwKICAicHJvZmlsZUlkIiA6ICI5ZDQyNWFiOGFmZjg0MGU1OWM3NzUzZjc5Mjg5YjMyZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUb21wa2luNDIiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdiZjNiOWNjNTVjODFkYmZkODgyMjZiODgxYTI4Nzg5ZGFjZTk2YmU1NTc4NzZmZTJjNzFhYzdiYjE2NGQ1MyIKICAgIH0KICB9Cn0="
-    signature: "tQWdj7fHZD175DGh2XUm3yyhZHeBr126PtGnWWsNM2w8SoiaKtX45K9TxiU2zacDJS4hEWei7hYD97OYRCezSaJKbhb8Q4h1gLApyjgd+mr6LnJOjI8PCXF9qaBgyhG4i8EeZLsYzyvn878L9Nl8QL5QxFxGATblaWegVPMf71DP1xl+c17i2N+PSYbpjR3E0R/AdHPonwAXCqUa++piIf942NSLqc3C77Ui1NZyBtgRlnqJ5KD/E8c2z4KxIkSJ5aBk7mwy6NgZq6E5KgWbTon5TBks0fSQLqYlZFL97q8SFDdeGZBOdhRr9Zn5kNCRourrlGT0mfYKw+W9DYHQvIqCrCcMqwvLapA9Z4nXWLXRHSwIC9M3EvCmKuRR1zlGpWz08TpUcybOOsFRXE3iHFBBBOJt28btNPZ3uNPfJBMLgnQgO1sCBh7ordporHIMqlRiWJ9GNweuKn59H1kKzjCaWEF/+w9JYPsHvotgC9shb5QLVE+tQta/bPZcaMu7vCskrmDxWCS7nlIde8jcS9+BTYQC5GuBJGgj9OnFlS+J5/+5MwZFmsmujFM6lgzAlku0CvIwALASelqIqFekTYhoJwrkqBEdjj+22OaJE6mCpz/pd6pVDmMsAQDbb3ihf5mkNQ9gykxUon3oMf91rTefJfzaEGlN0sTHVklxFF0="
-  - order: 3
-    value: "ewogICJ0aW1lc3RhbXAiIDogMTYxMDUwNDU0MDY2MSwKICAicHJvZmlsZUlkIiA6ICIxNzhmMTJkYWMzNTQ0ZjRhYjExNzkyZDc1MDkzY2JmYyIsCiAgInByb2ZpbGVOYW1lIiA6ICJzaWxlbnRkZXRydWN0aW9uIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzgwMDQ0MmJiMzBjOWZiZDMyMjhmNzBlNTNmNzI2ODAxZmY3ZjAxOWRjZjMzOWNhYjNkNmMzMGJhMWM4MTQ3ZDAiCiAgICB9CiAgfQp9"
-    signature: "P8CFKon5n7Gt4zoH0xk5wz31/9d2EFnWnuYPqw5XcfvGPH/a5l2nKD5C/YCj0GSNcs/2bjS/cKy4856x9MVq/h6Y+RiWqCbe+mGiKT/zfDskHa3/HQBb4+sqC9pl9wwJmwC2cHn7ohT0T+ibJUY8jlsV3fOQExUgIDLtzVCn05ztwKi8bZMJl+oWiiuV4QRJNqUZGVCxw9djTl1g/A2Ba2ZH3OnMTD/5Ej+FhhBt2VsW0RTogBbRqOMYRs1RxnPI+g9ncDSFjL7DgN/Hui+F0sGrguppRgPyovM6uqT6FPoxd3nso/DqkI2emckb8J8vjN6b0dK0/IF8dHJ+fDEyo4HJvGiX6WENrunsOgLFAav/gOcZVehQuuGlchavIy9m7CUz1V3GwPqyYKRnPxhWf70cICQUin8C8he54HwDSiuKwrs8YPHX9RUJWdNmzasSOOjhmKLots29ylAea7ddxREQoMaIbTBx+jEjya9TpeTC6xibkH3qILDDPOdJJEGkkIfXreKSx/+SfwrCEp8cbm5MrfStOsyh+GFKfhWEUZyo4NxSma0A4i9m4roZdeFUWbBbQ3+DYjCE7xdHrV//TdBxcjaXT4cjTHdKzmLTnZEH/h3v8RexY9vq3SP4qYxMcZ2N6UrgOBhKg4Ga88SuOn8wYap7MVo0Dx5nNN/kCsk="
+  # かきかた
+  #- order: 0
+  #  value: <テクスチャ>
+  #  signature: <シグネチャ>

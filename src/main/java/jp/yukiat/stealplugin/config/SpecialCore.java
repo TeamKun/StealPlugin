@@ -7,6 +7,8 @@ import java.util.*;
 public class SpecialCore
 {
     public String name;
+    public String color;
+    public String itemName;
     public ArrayList<Item> items;
     public MaterialType material = MaterialType.LEATHER;
 

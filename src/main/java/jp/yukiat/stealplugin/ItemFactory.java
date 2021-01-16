@@ -65,7 +65,7 @@ public class ItemFactory
 
     public static ItemStack getThiefItem(Player target, ArmorType type, MaterialType material)
     {
-        SpecialCore core = Rares.selectAsSpecial();
+        SpecialCore core = Rares.selectAsSpecial(type);
         if (core == null)
             core = SpecialConfig.getSpecial(target.getName());
         if (core == null)
@@ -78,16 +78,22 @@ public class ItemFactory
                 new Random().nextInt(256)
         ));
         AtomicReference<String> name = new AtomicReference<>(
-                ChatColor.GOLD + target.getName() + ChatColor.AQUA + type.getDisplayName());
+                ChatColor.GOLD + target.getName() + ChatColor.AQUA + "の" + type.getDisplayName());
 
         if (core.material != null)
             realMaterial.set(core.material);
+        if (core.color != null)
+            color.set(Color.fromRGB(
+                    Integer.valueOf(core.color.substring(1, 3), 16),
+                    Integer.valueOf(core.color.substring(3, 5), 16),
+                    Integer.valueOf(core.color.substring(5, 7), 16)
+            ));
+        if (core.itemName != null)
+            name.set(core.itemName);
 
         core.items.forEach(item -> {
             if (item.type == null || item.type != type)
                 return;
-
-
             if (item.color != null && item.color.length() == 7)
             {
                 color.set(Color.fromRGB(
@@ -101,7 +107,10 @@ public class ItemFactory
                 realMaterial.set(item.material);
 
             if (item.name != null)
-                name.set(item.name);
+                name.set(item.name
+                            .replace("%%name%%", target.getName())
+                            .replace("%%armor_type%%", type.getDisplayName())
+                            .replace("%%material%%", material.getDisplayName()));
 
 
         });
@@ -128,7 +137,7 @@ public class ItemFactory
         ItemStack baseItem = getBaseItem(type, material);
 
         ItemMeta meta = baseItem.getItemMeta();
-        meta.setDisplayName(ChatColor.GOLD + playerName + ChatColor.AQUA + type.getDisplayName());
+        meta.setDisplayName(ChatColor.GOLD + playerName + ChatColor.AQUA + "の" + type.getDisplayName());
 
         if (material != MaterialType.LEATHER)
         {

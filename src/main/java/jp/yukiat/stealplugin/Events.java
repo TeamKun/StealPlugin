@@ -22,7 +22,8 @@ public class Events implements Listener
         Player thief = e.getPlayer();
 
         // オフハンドなら返す
-        if (e.getHand().equals(EquipmentSlot.OFF_HAND)) {
+        if (e.getHand().equals(EquipmentSlot.OFF_HAND))
+        {
             return;
         }
 
@@ -35,7 +36,8 @@ public class Events implements Listener
             return;
 
         //盗人可能リストにいないので除外
-        if (!StealPlugin.config.getList("thief").contains(thief.getName())) {
+        if (!StealPlugin.config.getList("thief").contains(thief.getName()))
+        {
             thief.sendMessage("盗めないよ！！！");
             return;
         }
@@ -82,12 +84,20 @@ public class Events implements Listener
                 World world = target.getWorld();
 
                 // 一撃で脱げる女
-                if (StealPlugin.config.getList("oneshots").contains(target.getName())) {
+                if (StealPlugin.config.getList("oneshots").contains(target.getName()))
+                {
                     skin = SkinContainer.getSkinByOrder(len);
+                    for (int i = order; i < len; i++)
+                    {
+                        ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[i], MaterialType.LEATHER);
 
-                    for (int i = order; i < len; i++) {
-                        ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
-                        world.dropItem(target.getLocation().add(0, 1, 0), item);
+                        Location location = new Location(
+                                target.getWorld(),
+                                (target.getLocation().getX() + thief.getLocation().getX() * 2.0) / 3.0,
+                                (target.getLocation().getY() + thief.getLocation().getY() * 2.0) / 3.0,
+                                (target.getLocation().getZ() + thief.getLocation().getZ() * 2.0) / 3.0
+                        );
+                        world.dropItem(location, item);
 
                         thief.sendMessage(ChatColor.GOLD + target.getName() +
                                 ChatColor.GREEN + "の" + ArmorType.values()[i].getDisplayName() + "を盗みました！");
@@ -98,7 +108,8 @@ public class Events implements Listener
                     PlayerUtil.setMetaData(target, "order", len);
                 }
                 // 一般の女
-                else {
+                else
+                {
                     skin = SkinContainer.getSkinByOrder(order + 1);
 
                     ItemStack item = ItemFactory.getThiefItem(target, ArmorType.values()[order], MaterialType.LEATHER);
@@ -118,17 +129,17 @@ public class Events implements Listener
                 // HEART->シンプルにハート
                 // SPELL_MOB_AMBIENT
                 world.spawnParticle(
-                        Particle.SPELL_MOB_AMBIENT,
+                        Particle.CLOUD,
                         target.getLocation().add(0, 1, 0),
-                        20,
+                        50,
+                        0.1,
                         0.3,
-                        0.3,
-                        0.3,
-                        0);
+                        0.1,
+                        0.05
+                );
 
                 // サウンド
-                world.playSound(target.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
-
+                world.playSound(target.getLocation(), Sound.ITEM_ARMOR_EQUIP_LEATHER, 1, 1);
                 // もしスキンが見つからなければ
                 if (skin == null)
                     skin = SkinContainer.getSkinByOrder(0);

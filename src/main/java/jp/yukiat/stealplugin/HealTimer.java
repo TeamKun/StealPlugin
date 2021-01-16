@@ -51,7 +51,8 @@ public class HealTimer extends BukkitRunnable
                         0.3,
                         0.3,
                         0.3,
-                        0);
+                        0
+                );
                 PlayerUtil.setMetaData(player, "order", order);
                 return;
             }
