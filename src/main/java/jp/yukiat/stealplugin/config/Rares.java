@@ -1,11 +1,12 @@
 package jp.yukiat.stealplugin.config;
 
-import com.google.gson.*;
-import com.google.gson.reflect.*;
-import jp.yukiat.stealplugin.*;
-import jp.yukiat.stealplugin.enums.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import jp.yukiat.stealplugin.StealPlugin;
+import jp.yukiat.stealplugin.enums.ArmorType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Rares
 {

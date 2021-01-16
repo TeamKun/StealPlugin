@@ -1,11 +1,12 @@
 package jp.yukiat.stealplugin.utils;
 
-import develop.p2p.lib.*;
-import jp.yukiat.stealplugin.*;
-import org.bukkit.*;
-import org.bukkit.entity.*;
-import org.bukkit.scheduler.*;
-import org.bukkit.util.*;
+import develop.p2p.lib.WaveCreator;
+import jp.yukiat.stealplugin.StealPlugin;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 /**
  * でこれーしょん☆！
@@ -158,8 +159,9 @@ public class Decorations
 
     /**
      * 線引く
-     * @param from さいしょ
-     * @param to さいご
+     *
+     * @param from    さいしょ
+     * @param to      さいご
      * @param seconds びょーすー
      */
     public static void secLinesPlayer(Player from, Player to, int seconds)

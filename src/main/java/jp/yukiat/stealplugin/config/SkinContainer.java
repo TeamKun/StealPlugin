@@ -1,10 +1,10 @@
 package jp.yukiat.stealplugin.config;
 
-import com.google.gson.*;
-import com.google.gson.reflect.*;
-import jp.yukiat.stealplugin.*;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import jp.yukiat.stealplugin.StealPlugin;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class SkinContainer
 {
