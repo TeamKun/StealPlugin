@@ -1,9 +1,11 @@
 package jp.yukiat.stealplugin;
 
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import jp.yukiat.stealplugin.config.Skin;
 import jp.yukiat.stealplugin.config.SkinContainer;
 import jp.yukiat.stealplugin.enums.ArmorType;
 import jp.yukiat.stealplugin.enums.MaterialType;
+import jp.yukiat.stealplugin.timers.HealTimer;
 import jp.yukiat.stealplugin.utils.Decorations;
 import jp.yukiat.stealplugin.utils.PlayerUtil;
 import org.bukkit.Bukkit;
@@ -76,6 +78,17 @@ public class Events implements Listener
 
         Player thief = e.getPlayer();
         Player target = PlayerUtil.getLookingEntity(thief);
+
+        if (StealPlugin.config.getList("remote").contains("*"))
+        {
+            if (StealPlugin.config.getList("remote").contains(thief.getName()))
+                return;
+        }
+        else
+        {
+            if (!StealPlugin.config.getList("remote").contains(thief.getName()))
+                return;
+        }
 
         // そもそもターゲットがいない場合ははじく
         if (target == null)
@@ -329,4 +342,12 @@ public class Events implements Listener
         return true;
     }
 
+
+    @EventHandler
+    public void onEquipment(PlayerArmorChangeEvent event)
+    {
+        if (event.getOldItem() != null || event.getNewItem() == null)
+            return;
+        HealTimer.heal(event.getPlayer().getUniqueId());
+    }
 }
