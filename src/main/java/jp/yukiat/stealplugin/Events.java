@@ -8,6 +8,8 @@ import jp.yukiat.stealplugin.enums.MaterialType;
 import jp.yukiat.stealplugin.timers.HealTimer;
 import jp.yukiat.stealplugin.utils.Decorations;
 import jp.yukiat.stealplugin.utils.PlayerUtil;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -152,36 +154,38 @@ public class Events implements Listener
         List<?> thiefList = StealPlugin.config.getList("thief");
         boolean isThiefBlackListed = thiefList.contains("*");
 
+        BaseComponent[] a =  new ComponentBuilder(ChatColor.RED + "盗めないよ！！！").create();
+
         if (isThiefBlackListed && thiefList.contains(thief.getName()))
         {
-            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            thief.spigot().sendMessage(a);
             return false;
         }
 
         if (!isThiefBlackListed && !thiefList.contains(thief.getName()))
         {
-            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            thief.spigot().sendMessage(a);
             return false;
         }
 
         if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
         {
-            thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
+            thief.spigot().sendMessage(a);
             return false;
         }
 
         List<?> targetList = StealPlugin.config.getList("target");
         boolean isTargetBlackListed = targetList.contains("*");
 
-        if (isTargetBlackListed && targetList.contains(thief.getName()))
+        if (isTargetBlackListed && targetList.contains(target.getName()))
         {
-            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            thief.spigot().sendMessage(a);
             return false;
         }
 
-        if (!isTargetBlackListed && !targetList.contains(thief.getName()))
+        if (!isTargetBlackListed && !targetList.contains(target.getName()))
         {
-            thief.sendMessage(ChatColor.RED + "盗めないよ！！！");
+            thief.spigot().sendMessage(a);
             return false;
         }
 
