@@ -62,7 +62,10 @@ public class Events implements Listener
     @EventHandler(ignoreCancelled = true)
     public void onJoin(PlayerJoinEvent e)
     {
-        if (StealPlugin.config.getStringList("target").contains(e.getPlayer().getName()))
+        if ((!StealPlugin.config.getStringList("target").contains("*") &&
+                StealPlugin.config.getStringList("target").contains(e.getPlayer().getName())) ||
+                (StealPlugin.config.getStringList("target")).contains("*") &&
+                !StealPlugin.config.getStringList("target").contains(e.getPlayer().getName()))
         {
             setOwnSkull(e.getPlayer());
 
