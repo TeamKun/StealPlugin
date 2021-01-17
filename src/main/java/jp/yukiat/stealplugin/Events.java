@@ -8,6 +8,7 @@ import jp.yukiat.stealplugin.enums.MaterialType;
 import jp.yukiat.stealplugin.timers.HealTimer;
 import jp.yukiat.stealplugin.utils.Decorations;
 import jp.yukiat.stealplugin.utils.PlayerUtil;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
@@ -115,7 +116,7 @@ public class Events implements Listener
         if (distance > maxDistance || distance < 3.25)
             return;
 
-        if (!canSteal(thief, target))
+        if (!canSteal(thief, target, false))
             return;
 
         Decorations.magic(target, 60);
@@ -152,7 +153,7 @@ public class Events implements Listener
         }.runTaskAsynchronously(StealPlugin.getPlugin());
     }
 
-    private boolean canSteal(Player thief, Player target)
+    private boolean canSteal(Player thief, Player target, boolean silent)
     {
         List<?> thiefList = StealPlugin.config.getList("thief");
         boolean isThiefBlackListed = thiefList.contains("*");
@@ -161,19 +162,22 @@ public class Events implements Listener
 
         if (isThiefBlackListed && thiefList.contains(thief.getName()))
         {
-            thief.spigot().sendMessage(a);
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, a);
             return false;
         }
 
         if (!isThiefBlackListed && !thiefList.contains(thief.getName()))
         {
-            thief.spigot().sendMessage(a);
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, a);
             return false;
         }
 
         if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
         {
-            thief.spigot().sendMessage(a);
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, a);
             return false;
         }
 
@@ -182,25 +186,29 @@ public class Events implements Listener
 
         if (isTargetBlackListed && targetList.contains(target.getName()))
         {
-            thief.spigot().sendMessage(a);
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, a);
             return false;
         }
 
         if (!isTargetBlackListed && !targetList.contains(target.getName()))
         {
-            thief.spigot().sendMessage(a);
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, a);
             return false;
         }
 
         if (thief.getInventory().getItemInMainHand().getType() != Material.AIR)
         {
-            thief.sendMessage(ChatColor.RED + "素手じゃないと服を盗めないよ！");
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.RED + "素手じゃないと服を盗めないよ！").create());
             return false;
         }
 
         if (StealPlugin.getPlugin().stealing.contains(thief.getUniqueId()))
         {
-            thief.sendMessage(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！");
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.RED + "そんなにすぐにれんぞくではとれないよ！！！").create());
             return false;
         }
 
@@ -211,7 +219,8 @@ public class Events implements Listener
 
         if (order >= 3)
         {
-            thief.sendMessage(ChatColor.RED + "もうはだかだよ！！！");
+            if (!silent)
+                thief.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder(ChatColor.RED + "もうはだかだよ！！！").create());
             return false;
         }
 
@@ -220,7 +229,7 @@ public class Events implements Listener
 
     private boolean steal(Player thief, Player target)
     {
-        if (!canSteal(thief, target))
+        if (!canSteal(thief, target, false))
             return false;
 
         int order = 0;
