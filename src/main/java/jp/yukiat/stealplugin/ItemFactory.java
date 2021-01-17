@@ -102,31 +102,33 @@ public class ItemFactory
         if (core.effect != null)
             effect.set(core.effect);
 
-        core.items.forEach(item -> {
-            if (item.type == null || item.type != type)
-                return;
-            if (item.color != null && item.color.length() == 7)
-            {
-                color.set(Color.fromRGB(
-                        Integer.valueOf(item.color.substring(1, 3), 16),
-                        Integer.valueOf(item.color.substring(3, 5), 16),
-                        Integer.valueOf(item.color.substring(5, 7), 16)
-                ));
-            }
+        if (core.items != null)
+            core.items.forEach(item -> {
+                if (item.type == null || item.type != type)
+                    return;
+                if (item.color != null && item.color.length() == 7)
+                {
+                    color.set(Color.fromRGB(
+                            Integer.valueOf(item.color.substring(1, 3), 16),
+                            Integer.valueOf(item.color.substring(3, 5), 16),
+                            Integer.valueOf(item.color.substring(5, 7), 16)
+                    ));
+                }
 
-            if (item.material != null)
-                realMaterial.set(item.material);
+                if (item.material != null)
+                    realMaterial.set(item.material);
 
-            if (item.name != null)
-                name.set(item.name
-                        .replace("%%name%%", target.getName())
-                        .replace("%%armor_type%%", type.getDisplayName())
-                        .replace("%%material%%", material.getDisplayName()));
+                if (item.name != null)
+                    name.set(item.name
+                            .replace("%%name%%", target.getName())
+                            .replace("%%armor_type%%", type.getDisplayName())
+                            .replace("%%material%%", material.getDisplayName()));
 
-            if (item.effect != null)
-                effect.set(item.effect);
+                if (item.effect != null)
+                    effect.set(item.effect);
 
-        });
+            });
+
         ItemStack baseItem = getBaseItem(type, realMaterial.get()).clone();
         ItemMeta meta = baseItem.getItemMeta();
         meta.setDisplayName(name.get());
